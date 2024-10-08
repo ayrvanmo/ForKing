@@ -2,13 +2,11 @@
 #include <stdlib.h>
 
 #include "memory.h"
+#include "queue.h"
 
 
 
-int main(int argc, char **argv){
-
-    
-
+int main(){
 
     return 0;
 }
