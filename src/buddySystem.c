@@ -14,7 +14,7 @@ BuddySystem empty_buddy_system(BuddySystem T)
         delete_buddy_system(T);
     }
 
-    T = malloc(sizeof(struct TreeNode));
+    T = malloc(sizeof(struct _treeNode));
     if(T == NULL){
         printf("ERROR");
     }

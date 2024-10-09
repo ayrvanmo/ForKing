@@ -12,29 +12,22 @@
 #include<stdbool.h>
 #include<math.h>
 #include<unistd.h>
+#include"process.h"
 
 // Defines provisorios
 #define MAX_MEMORY 2048
 #define MIN_MEMORY 128
 
-typedef struct Buddy Buddy;
-typedef struct TreeNode TreeNode;
+typedef struct _buddy Buddy;
+typedef struct _treeNode TreeNode;
 typedef TreeNode* PrtToTreeNode;
 typedef PrtToTreeNode TreePosition;
 typedef PrtToTreeNode BuddySystem;
 
-// Estructura preventiva
-typedef struct _process{
-    unsigned int PID; ///!< Identificador del Proceso/
-    unsigned int arrivalTime; ///!< Tiempo de llegada del proceso/
-    unsigned int burstTime; ///!< Tiempo requerido por el proceso/
-    unsigned int memoryRequired; //< Memoria solicitada por el proceso/
-}Process;
-
 /*! \struct Buddy
   * @brief Estructura para manejar los buddys dentro del BuddySystem
   */
-struct Buddy{
+struct _buddy{
 	Process* process; /*!< Representa el proceso asociado al buddy, PID -1 en caso de no existir */
 	unsigned int order; /*!< Representa la altura de un Buddy */
 	bool isUsed; /*!< Indica si el espacio de memoria de un buddy esta siendo ocupado */
@@ -43,7 +36,7 @@ struct Buddy{
 /** \struct TreeNode
  * @brief Estructura encargada de generar los nodos de un BuddySystem
  */
-struct TreeNode{
+struct _treeNode{
 	Buddy element; /*!<Elemento del nodo es un Buddy*/
 	TreePosition parent; /*!< Padre del nodo en cuestion*/
 	TreePosition left; /*!<Hijo izquierdo del nodo*/

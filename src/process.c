@@ -10,7 +10,7 @@
  * @param L Lista entregada
  * @return int Devuelve 1 si esta vacia y 0 si no lo esta
  */
-int is_empty(List L)
+int is_empty_list(List L)
 {
     return L->next == NULL;
 }
@@ -36,7 +36,7 @@ void print_list(List L)
         P = P->next;
         i++;
     }
-    if(is_empty(L)){
+    if(is_empty_list(L)){
         printf("La lista esta vacia\n");
     }
 }
@@ -72,7 +72,7 @@ int is_last(Position P)
  * @param L Lista entregada
  * @return List Retorna la lista vacia
  */
-List make_empty(List L)
+List make_empty_list(List L)
 {
     if(L != NULL){
         delete_list(L);

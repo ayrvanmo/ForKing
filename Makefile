@@ -1,5 +1,5 @@
 CC=gcc
-EXEC=program.out
+EXEC=forking.out
 GRUPO=G1
 NTAR=2
 

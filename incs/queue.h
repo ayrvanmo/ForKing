@@ -1,55 +1,47 @@
 /**
  * @file queue.h
- * @author Iván Mansilla, Ayrton Morrison, Milton Hernández
+ * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
  */
 
- #include <stdio.h>
- #include <stdlib.h>
- #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "process.h"
+
 
 
 /*----------------ESTRUCTURAS-----------------------*/
 
+typedef struct _circularNode CircularNode;
+typedef struct _queueRecord QueueRecord;
+typedef CircularNode* PtrToCircularNode;
 
-/*************************************** */
-typedef struct process{
-    unsigned int PID;/*!< Identificador del Proceso*/
-    unsigned int arrivalTime;/*!< Tiempo de llegada del proceso*/
-    unsigned int burstTime;/*!< Tiempo requerido por el proceso*/
-    unsigned int memoryRequired;/*!< Memoria solicitada por el proceso*/
-}process;
-/*************************************** */
-
-
+typedef QueueRecord* Queue; // puntero a la cola
 
 /* NODOS PARA LISTA CIRCULAR*/
-typedef struct circularNode{
-    process process; /*!< Proceso que contiene el nodo*/
-    struct circularNode* next; /*!< Puntero a nodo siguiente*/
-    struct circularNode* prev; /*!< Puntero a nodo anterior*/
-} circularNode;
+struct _circularNode{
+    Process process; /*!< Proceso que contiene el nodo*/
+    PtrToCircularNode next; /*!< Puntero a nodo siguiente*/
+    PtrToCircularNode prev; /*!< Puntero a nodo anterior*/
+};
 /*--------------------------*/
 
 
 /* COLA */
-typedef struct queueRecord{
-    circularNode* centinel; /*!< Next del centinela = front, prev=rear*/
-} queueRecord;
-
-
-
-typedef queueRecord* queue; // puntero a la cola
+struct _queueRecord{
+    PtrToCircularNode centinel; /*!< Next del centinela = front, prev=rear*/
+};
 
 /*---------------------FUNCIONES--------------------*/
-bool is_empty(queue Q);
+bool is_empty_queue(Queue Q);
 
-queue create_queue();
-void make_empty(queue Q);
-void free_queue(queue Q);
+Queue create_queue();
+void make_empty_queue(Queue Q);
+void free_queue(Queue Q);
 
 
-void enqueue( process X, queue Q );
-process front( queue Q );
-void dequeue( queue Q );
+void enqueue( Process X, Queue Q );
+Process front( Queue Q );
+void dequeue( Queue Q );
 
-void print_queue(queue Q);
+void print_queue(Queue Q);

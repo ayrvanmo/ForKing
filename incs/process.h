@@ -1,6 +1,6 @@
 /**
  * @file process.h
- * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison 
+ * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
  * @brief Cabezera relacionada a process.c
  */
 
@@ -39,18 +39,18 @@ struct _processNode {
     Position next; /*!< Puntero al siguiente nodo en la lista enlazada */
 };
 
-int is_empty(List L); 
-void print_list(List L); 
-void delete_list(List L); 
-int is_last(Position P); 
-List make_empty(List L); 
-Position find(Process X, List); 
-Position find_previous(Process X, List L); 
-List delete_element(Process X, List L); 
-List insert_element(Process X, List L, Position P); 
-List header(List L); 
-List first(List L); 
-Position advance(Position P); 
+int is_empty_list(List L);
+void print_list(List L);
+void delete_list(List L);
+int is_last(Position P);
+List make_empty_list(List L);
+Position find(Process X, List);
+Position find_previous(Process X, List L);
+List delete_element(Process X, List L);
+List insert_element(Process X, List L, Position P);
+List header(List L);
+List first(List L);
+Position advance(Position P);
 Process retrieve(Position P	);
 
 #endif
