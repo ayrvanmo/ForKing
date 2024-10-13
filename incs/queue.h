@@ -38,7 +38,7 @@ struct _queueRecord{
 bool is_empty_queue(Queue Q);
 void make_empty_queue(Queue Q);
 void free_queue(Queue Q);
-void enqueue( Process X, Queue Q );
+void enqueue( Process* X, Queue Q );
 void dequeue( Queue Q );
 void print_queue(Queue Q);
 Process* front( Queue Q );

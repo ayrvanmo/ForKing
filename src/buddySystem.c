@@ -88,8 +88,6 @@ TreePosition find_buddy(Process* P, BuddySystem T)
  */
 BuddySystem insert_buddy(Process* P, BuddySystem T)
 {
-    printf("Antes de imprimir\n");
-    print_buddy_system(T);
     // Calculo de orden requerida
     unsigned int processOrder = ceil(log2(P->memoryRequired)-log2(MIN_MEMORY));
 
@@ -107,9 +105,6 @@ BuddySystem insert_buddy(Process* P, BuddySystem T)
     processNode->element.process = P;
     processNode->element.order = processOrder;
     processNode->element.isUsed = 1;
-
-    printf("Despues de imprimir\n");
-    print_buddy_system(T);
 
     return processNode;
 }
@@ -210,7 +205,6 @@ void print_buddy_system(BuddySystem T)
     }
     if(T->element.process != NULL){
         printf("%d , %2d\n",T->element.order,T->element.process->PID);
-        print_process(*T->element.process);
     }
     else{
         printf("%d , -1\n",T->element.order);

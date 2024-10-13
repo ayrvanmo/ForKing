@@ -11,7 +11,7 @@
  * @return true: está vacia. false: no está vacia
 */
 bool is_empty_queue(Queue Q){
-    return Q->centinel->process.PID == 0;
+    return Q->centinel->process->PID == 0;
 }
 /*------------------END------------ */
 
@@ -33,7 +33,13 @@ Queue create_queue(){
         exit(1);
     }
 
-    Q->centinel->process.PID=0; //PID del centinela será el tamaño de la cola!!!
+    Q->centinel->process=malloc(sizeof(Process));
+    if(Q->centinel==NULL){
+        printf("ERROR: No hay memoria disponible");
+        exit(1);
+    }
+
+    Q->centinel->process->PID=0; //PID del centinela será el tamaño de la cola!!!
     Q->centinel->prev = Q->centinel->next = Q->centinel;
 
     return Q;
@@ -65,7 +71,7 @@ void make_empty_queue(Queue Q){
     } while(position != Q->centinel->next);
 
     // volver a valores iniciales
-    Q->centinel->process.PID = 0;
+    Q->centinel->process->PID = 0;
     Q->centinel->prev = Q->centinel->next = Q->centinel;
 }
 /*--------END------*/
@@ -89,7 +95,7 @@ void free_queue(Queue Q){
  * @param Q Cola a agregar el proceso
  * @note Agrega el proceso al final de la cola
  */
-void enqueue(Process P, Queue Q){
+void enqueue(Process* P, Queue Q){
 
     CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
     // error de memoria
@@ -112,7 +118,7 @@ void enqueue(Process P, Queue Q){
         Q->centinel->next=newNode; //si la cola está vacia hacer ese nodo el front
     }
 
-    Q->centinel->process.PID++; // aumentar contador del tamaño de la cola}
+    Q->centinel->process->PID++; // aumentar contador del tamaño de la cola}
 
 }
 
@@ -123,7 +129,7 @@ void enqueue(Process P, Queue Q){
  * @param Q Cola
  * @return Proceso front
  */
-Process front(Queue Q){
+Process* front(Queue Q){
 
     if(!is_empty_queue(Q)){
         return Q->centinel->next->process;
@@ -149,7 +155,7 @@ void dequeue (Queue Q){
 
         free(Q->centinel->next); // liberar memoria del frente antiguo
         Q->centinel->next=aux; // hacer que el 2do nodo sea el nuevo frente
-        Q->centinel->process.PID--; //descontar contador
+        Q->centinel->process->PID--; //descontar contador
 
     }
 }
@@ -169,7 +175,7 @@ void print_queue(Queue Q){
 
         while (position!= Q->centinel) //mientras no se de vuelta a la lista circular
         {
-            print_process(position->process);
+            print_process(*position->process);
             position=position->next;
             i++;
         }

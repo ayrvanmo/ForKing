@@ -35,6 +35,7 @@ typedef struct SystemStatus
     unsigned int avaliableMemory;
     unsigned int totalProceses;
     unsigned int remainingProceses;
+    unsigned int remainingQuantumTime;
 } SystemStatus;
 
 int read_input_file(char* file_name, SystemConfig* forkingConfig);

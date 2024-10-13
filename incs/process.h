@@ -49,6 +49,7 @@ Position find_process(Process X, List);
 Position find_previous(Process X, List L);
 List delete_element(Process X, List L);
 List insert_element(Process X, List L, Position P);
+List insert_element_end(Process X, List L);
 List header(List L);
 List first(List L);
 Position advance(Position P);

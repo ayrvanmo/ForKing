@@ -153,6 +153,21 @@ Position insert_element(Process X, List L, Position P)
     return L;
 }
 /**
+ * @brief Inserta un proceso al final de la lista
+ * @param X Proceso entregado
+ * @param L Lista entregada
+ * @return Position Retorna la posicion del proceso insertado
+ */
+Position insert_element_end(Process X, List L){
+    Position P = L;
+    while(P->next != NULL){
+        P = P->next; //LLEGA HASTA EL FINAL DE LA LISTA GUARDANDO LA POSICION
+    }
+    return insert_element(X, L, P); //RETORNA UNA INSERCION EN LA POSICION AL FINAL DE LA LISTA
+}
+
+
+/**
  * @brief Retorna el centinela de la lista
  * @param L Lista entregada
  * @return List el puntero centinela
