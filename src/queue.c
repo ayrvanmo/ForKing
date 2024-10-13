@@ -6,14 +6,12 @@
 
 /**
  * @brief Función para verificar si una cola está vacia
- * 
  * @param Q Cola
  * @return true: está vacia. false: no está vacia
  */
 bool is_empty_queue(Queue Q){
     return Q->centinel->process.PID == 0;
 }
-/*------------------END------------ */
 
  /**
   * @brief Función para crear una cola
@@ -38,12 +36,10 @@ Queue create_queue(){
 
     return Q;
 }
-/*---------END---------*/
 
 
 /**
  * @brief Función para vaciar una cola con elementos
- * 
  * @param Q Cola
  * @note No elimina la cola, solo los elementos de ella. La vacia.
  */ 
@@ -69,11 +65,9 @@ void make_empty_queue(Queue Q){
     Q->centinel->process.PID = 0;
     Q->centinel->prev = Q->centinel->next = Q->centinel;
 }
-/*--------END------*/
 
 /**
  * @brief Liberar memoria de la cola
- * 
  * @param Q Cola
  * @note Elimina la cola
  */
@@ -83,15 +77,12 @@ void free_queue(Queue Q){
         free(Q);
     }
 }
-/*-----------END----------------*/
 
 
 /**
  * @brief Agregar proceso a la cola
- * 
  * @param P Proceso
  * @param Q Cola a agregar el proceso
- * 
  * @note Agrega el proceso al final de la cola
  */
 void enqueue(Process P, Queue Q){
@@ -120,15 +111,11 @@ void enqueue(Process P, Queue Q){
     Q->centinel->process.PID++; // aumentar contador del tamaño de la cola}
 
 }
-/*--------------END---------*/
-
-
 
 /**
  * @brief Devuelve el proceso que está en frente de la cola
  * @param Q Cola
  * @return Proceso front
- * 
  */
 Process front(Queue Q){
 
@@ -139,12 +126,9 @@ Process front(Queue Q){
     printf("ERROR: la cola está vacía");
     exit(1);
 }
-/* *****************END******************** */
-
 
 /**
  * @brief Sacar de la cola el proceso en front
- * 
  * @param Q Cola
  */
 void dequeue (Queue Q){
@@ -162,12 +146,9 @@ void dequeue (Queue Q){
 
     }
 }
-/************************************************ */
-
 
 /**
 * @brief Imprimir la cola
- *
  * @param Q Cola
  */
 void print_queue(Queue Q){
