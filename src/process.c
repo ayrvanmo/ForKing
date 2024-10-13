@@ -6,7 +6,6 @@
 #include "process.h"
 /**
  * @brief Verifica si la lista esta vacia
- * 
  * @param L Lista entregada
  * @return int Devuelve 1 si esta vacia y 0 si no lo esta
  */
@@ -16,7 +15,6 @@ int is_empty_list(List L)
 }
 /**
  * @brief Imprime en pantalla la lista de procesos
- * 
  * @param L Lista entregada
  */
 void print_list(List L)
@@ -26,13 +24,10 @@ void print_list(List L)
     P = L->next;
     int i = 1;
     while(P != NULL){
-        if(is_last(P)){
-            printf("El ultimo proceso es: \n");
-        }
-        printf("PID[%d]: %d ", i ,  P->data.PID);
-        printf("Arrival Time[%d]: %d ", i , P->data.arrivalTime);
-        printf("Burst Time[%d]: %d ", i , P->data.burstTime);
-        printf("Memory Required[%d]: %d \n", i , P->data.memoryRequired);
+        printf("PID:%5d ", P->data.PID);
+        printf("Arrival:%5d ",P->data.arrivalTime);
+        printf("Burst:%5d ",P->data.burstTime);
+        printf("Memory:%5d \n",P->data.memoryRequired);
         P = P->next;
         i++;
     }
@@ -42,25 +37,23 @@ void print_list(List L)
 }
 /**
  * @brief Elimina y libera la memoria de la lista de procesos
- * 
  * @param L Lista entregada
  */
 void delete_list(List L)
 {
     Position P, Tmp;
-    P = L->next; 
-    L->next = NULL;  
+    P = L->next;
+    L->next = NULL;
     while(P!= NULL){
         Tmp = P->next;
         free(P);
         P = Tmp;
-    }   
+    }
 }
 /**
  * @brief Verifica si un proceso es el ultimo elemento de su lista.
- * 
- * @param P 
- * @return int 
+ * @param P
+ * @return int
  */
 int is_last(Position P)
 {
@@ -68,7 +61,6 @@ int is_last(Position P)
 }
 /**
  * @brief Inicializa una lista vacia o vacia una ya existente
- * 
  * @param L Lista entregada
  * @return List Retorna la lista vacia
  */
@@ -86,10 +78,9 @@ List make_empty_list(List L)
 }
 /**
  * @brief Encuentra un proceso dentro de la lista de procesos
- * 
  * @param X Proceso que se busca
- * @param L Lista 
- * @return Position Retorna la posicion del proceso 
+ * @param L Lista
+ * @return Position Retorna la posicion del proceso
  */
 Position find(Process X, List L)
 {
@@ -102,9 +93,8 @@ Position find(Process X, List L)
 }
 /**
  * @brief Encuentra el proceso anterior a uno dado
- * 
  * @param X Proceso que se busca
- * @param L Lista entregada 
+ * @param L Lista entregada
  * @return Position Retorna la posicion del proceso
  */
 Position find_previous(Process X, List L)
@@ -118,7 +108,6 @@ Position find_previous(Process X, List L)
 }
 /**
  * @brief Se encarga de eliminar un proceso de la lista de procesos
- * 
  * @param X Proceso a eliminar
  * @param L Lista entregada
  * @return Position Retorna la posicion eliminada
@@ -136,11 +125,10 @@ Position delete_element(Process X, List L)
 }
 /**
  * @brief Inserta un proceso dentro de una lista de procesos
- * 
  * @param X Proceso dado
  * @param L Lista entregada
  * @param P Posicion de la lista en donde se insertara el proceso
- * @return Position 
+ * @return Position
  */
 Position insert_element(Process X, List L, Position P)
 {
@@ -151,12 +139,11 @@ Position insert_element(Process X, List L, Position P)
     }
     Tmpcell->data = X;
     Tmpcell->next = P->next;
-    P->next = Tmpcell;  
-    return L; 
+    P->next = Tmpcell;
+    return L;
 }
 /**
  * @brief Retorna el centinela de la lista
- * 
  * @param L Lista entregada
  * @return List el puntero centinela
  */
@@ -166,7 +153,6 @@ List header(List L)
 }
 /**
  * @brief Entrega el primer elemento de la lista
- * 
  * @param L Lista entregada
  * @return List Retorna el primer elemento de la lista
  */
@@ -176,7 +162,6 @@ List first(List L)
 }
 /**
  * @brief Entrega la posicion contigua a una posicion en la lista
- * 
  * @param P Posicion entregada
  * @return Position Retorna la siguiente posicion
  * @note No utilizar esta funcion en posiciones inicializadas sin enlace con la lista
@@ -187,11 +172,38 @@ Position advance(Position P)
 }
 /**
  * @brief Devuelve el proceso dentro de una posicion
- * 
  * @param P Posicion entregada
  * @return  Devuelve el proceso
  */
 Process retrieve(Position P)
 {
     return P->data;
+}
+/**
+ * @brief Carga una lista de procesos desde un archivo
+ * @param file Archivo entregado
+ * @return List Retorna la lista de procesos
+ * @warning El archivo debe estar abierto
+ */
+List load_process_list(FILE *file)
+{
+    // Comprobamos que el archivo sea abierto
+    if(file == NULL){
+        printf("ERROR FATAL, NO SE ENTREGO UN ARCHIVO ABIERTO\n");
+        return NULL;
+    }
+
+    List L = make_empty_list(L);
+    Process P;
+
+    while(!feof(file)){
+
+        if(fscanf(file, "%u %u %u %u", &P.PID, &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 4){
+            // printf("Proceso leido: PID: %u, Arrival Time: %u, Burst Time: %u, Memory Required: %u\n",P.PID, P.arrivalTime, P.burstTime, P.memoryRequired);
+            insert_element(P, L, header(L));
+        }
+    }
+
+    // No se hace fclose() dentro de esta funcion.
+    return L;
 }

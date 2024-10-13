@@ -11,7 +11,7 @@ INCLUDE=-I./incs/
 LIBS= -lm
 
 CFLAGS=-Wall -Wextra -Wpedantic -O3
-LDFLAGS= -Wall -lm 
+LDFLAGS= -Wall -lm
 
 all: $(OBJ_FILES)
 	$(CC) $(CFLAGS) -o build/$(EXEC) $(OBJ_FILES) $(INCLUDE) $(LIBS)

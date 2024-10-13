@@ -52,5 +52,6 @@ List header(List L);
 List first(List L);
 Position advance(Position P);
 Process retrieve(Position P	);
+List load_process_list(FILE *file);
 
 #endif
