@@ -24,16 +24,23 @@ void print_list(List L)
     P = L->next;
     int i = 1;
     while(P != NULL){
-        printf("PID:%5d ", P->data.PID);
-        printf("Arrival:%5d ",P->data.arrivalTime);
-        printf("Burst:%5d ",P->data.burstTime);
-        printf("Memory:%5d \n",P->data.memoryRequired);
+        print_process(P->data);
         P = P->next;
         i++;
     }
     if(is_empty_list(L)){
         printf("La lista esta vacia\n");
     }
+}
+/**
+ * @brief Imprime en pantalla un proceso
+ * @param P Proceso a imprimir
+ */
+void print_process(Process P){
+    printf("PID:%5d ", P.PID);
+    printf("Arrival:%5d ",P.arrivalTime);
+    printf("Burst:%5d ",P.burstTime);
+    printf("Memory:%5d \n",P.memoryRequired);
 }
 /**
  * @brief Elimina y libera la memoria de la lista de procesos
@@ -73,6 +80,7 @@ List make_empty_list(List L)
     if(L == NULL){
         printf("ERROR FATAL, NO HAY MEMORIA");
     }
+    L->data.PID = 0;
     L->next = NULL;
     return L;
 }
@@ -82,7 +90,7 @@ List make_empty_list(List L)
  * @param L Lista
  * @return Position Retorna la posicion del proceso
  */
-Position find(Process X, List L)
+Position find_process(Process X, List L)
 {
     Position P;
     P = L->next;
@@ -121,6 +129,7 @@ Position delete_element(Process X, List L)
         P->next = TmpCell->next;
         free(TmpCell);
     }
+    L->data.PID--;
     return P;
 }
 /**
@@ -140,6 +149,7 @@ Position insert_element(Process X, List L, Position P)
     Tmpcell->data = X;
     Tmpcell->next = P->next;
     P->next = Tmpcell;
+    L->data.PID++;
     return L;
 }
 /**
@@ -179,6 +189,42 @@ Process retrieve(Position P)
 {
     return P->data;
 }
+
+
+
+/**
+ * @brief Ordena una lista de procesos segun un criterio
+ * @param L Lista entregada
+ * @param criterion Criterio de ordenamiento
+ * @return List Retorna la lista ordenada
+ */
+List sort_list(List L, unsigned int(*criterion)(Process)){
+    if(is_empty_list(L)){
+        printf("Lista vacia\n");
+        return NULL;
+    }
+    unsigned int listSize = L->data.PID;
+    unsigned int toOrder = listSize-1;
+    Position P;
+
+    P=L->next;
+    while(toOrder > 0){
+        for(unsigned int i = 0; i < toOrder; i++){
+            unsigned int criterion1 = criterion(P->data);
+            unsigned int criterion2 = criterion(P->next->data);
+            if(criterion1 > criterion2){
+                swap_proceses(P, P->next);
+            }
+            P = P->next;
+        }
+        P=L->next;
+        toOrder--;
+
+    }
+    return L;
+}
+
+
 /**
  * @brief Carga una lista de procesos desde un archivo
  * @param file Archivo entregado
@@ -195,9 +241,7 @@ List load_process_list(FILE *file)
 
     List L = make_empty_list(L);
     Process P;
-
     while(!feof(file)){
-
         if(fscanf(file, "%u %u %u %u", &P.PID, &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 4){
             // printf("Proceso leido: PID: %u, Arrival Time: %u, Burst Time: %u, Memory Required: %u\n",P.PID, P.arrivalTime, P.burstTime, P.memoryRequired);
             insert_element(P, L, header(L));
@@ -206,4 +250,52 @@ List load_process_list(FILE *file)
 
     // No se hace fclose() dentro de esta funcion.
     return L;
+}
+
+
+
+// -------- Getters --------
+
+/**
+ * @brief Obtiene el PID de un proceso
+ * @param P Proceso entregado
+ * @return unsigned int Devuelve el PID del proceso
+ */
+unsigned int get_process_pid(Process P){
+    return P.PID;
+}
+/**
+ * @brief Obtiene el tiempo de llegada de un proceso
+ * @param P Proceso entregado
+ * @return unsigned int Devuelve el tiempo de llegada del proceso
+ */
+unsigned int get_process_arrival_time(Process P){
+    return P.arrivalTime;
+}
+/**
+ * @brief Obtiene el tiempo requerido por un proceso
+ * @param P Proceso entregado
+ * @return unsigned int Devuelve el tiempo de rafaga del proceso
+ */
+unsigned int get_process_burst_time(Process P){
+    return P.burstTime;
+}
+/**
+ * @brief Obtiene la memoria requerida por un proceso
+ * @param P Proceso entregado
+ * @return unsigned int Devuelve la memoria requerida por el proceso
+ */
+unsigned int get_process_memory_required(Process P){
+    return P.memoryRequired;
+}
+
+/**
+ * @brief Intercambia dos procesos dentro de una lista de procesos
+ * @param a Proceso 1 para intercambiar
+ * @param b Proceso 2 para intercambiar
+*/
+void swap_proceses(Position a, Position b){
+    Process tmp = a->data;
+    a->data = b->data;
+    b->data = tmp;
 }

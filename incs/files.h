@@ -15,17 +15,28 @@
 /*! \struct System
  * @brief Estructura de datos que representa las espeficiaciones del "sistema".
 */
-struct System
+typedef struct SystemConfig
 {
     unsigned int totalMemory;/*!< Memoria total disponible*/
     unsigned int minMemory;/*!< Memoria minima a utilizar */
     unsigned int cpuCores;/*!< Cantidad de "nucleos" del "procesador" */
     unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
     List processes;
-};
+} SystemConfig;
 
-extern struct System forkingConfig;
 
-int read_input_file(char* file_name);
+typedef struct SystemStatus
+{
+    unsigned int ticks;
+    unsigned int arrivalQueueNumber;
+    unsigned int waitingQueueNumber;
+    unsigned int rrQueueNumber;
+    unsigned int sjfQueueNumber;
+    unsigned int avaliableMemory;
+    unsigned int totalProceses;
+    unsigned int remainingProceses;
+} SystemStatus;
+
+int read_input_file(char* file_name, SystemConfig* forkingConfig);
 
 #endif

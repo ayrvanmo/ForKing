@@ -5,9 +5,11 @@
  */
 #include "buddySystem.h"
 
-/// @brief Genera un BuddySystem vacio
-/// @param T Puntero al BuddySystem
-/// @return Puntero a un BuddySystem vacio
+/**
+ * @brief Genera un BuddySystem vacio
+ * @param T BuddySystem a generar
+ * @return BuddySystem vacio
+ */
 BuddySystem empty_buddy_system(BuddySystem T)
 {
     if(T != NULL){
@@ -26,8 +28,11 @@ BuddySystem empty_buddy_system(BuddySystem T)
     return T;
 }
 
-/// @brief Elimina por completo un BuddySystem
-/// @param T Puntero al BuddySystem a eliminar
+/**
+ * @brief Elimina un BuddySystem por completo
+ * @param T BuddySystem a eliminar
+ * @return BuddySystem Eliminado
+ */
 BuddySystem delete_buddy_system(BuddySystem T)
 {
     if(T == NULL){
@@ -52,12 +57,12 @@ BuddySystem delete_buddy_system(BuddySystem T)
     return NULL;
 }
 
-/// @brief Encuentra el Buddy en que se encuentra un proceso
-///
-/// La busqueda se realiza en el preOrder
-/// @param P Proceso a buscar dentro del BuddySystem
-/// @param T BuddySystem en el que se desea buscar el proceso @p P
-/// @return Puntero al nodo en que se encuentra el proceso @p P , NULL en caso de no encontrar
+/**
+ * @brief Encuentra el buddy en que se encuentra un proceso
+ * @param P Proceso a buscar dentro del BuddySystem
+ * @param T BuddySystem en el que se desea buscar el proceso @p P
+ * @return TreePosition Puntero al nodo en que se encuentra el proceso @p P , NULL en caso de no encontrar
+ */
 TreePosition find_buddy(Process* P, BuddySystem T)
 {
     TreePosition buddyNode;
@@ -75,12 +80,16 @@ TreePosition find_buddy(Process* P, BuddySystem T)
     return buddyNode;
 }
 
-/// @brief Inserta un proceso en el Buddy adecuado dentro del BuddySystem
-/// @param P Proceso a almacenar
-/// @param T BuddySystem en el que se incertara el proceso
-/// @return Nodo en el que se almaceno el proceso @p P
+/**
+ * @brief Inserta un proceso en el Buddy adecuado dentro del BuddySystem
+ * @param P Proceso a almacenar
+ * @param T BuddySystem en el que se insertara el proceso
+ * @return BuddySystem Nodo en el que se almaceno el proceso @p P
+ */
 BuddySystem insert_buddy(Process* P, BuddySystem T)
 {
+    printf("Antes de imprimir\n");
+    print_buddy_system(T);
     // Calculo de orden requerida
     unsigned int processOrder = ceil(log2(P->memoryRequired)-log2(MIN_MEMORY));
 
@@ -99,13 +108,18 @@ BuddySystem insert_buddy(Process* P, BuddySystem T)
     processNode->element.order = processOrder;
     processNode->element.isUsed = 1;
 
+    printf("Despues de imprimir\n");
+    print_buddy_system(T);
+
     return processNode;
 }
 
-/// @brief Busca (y si es posible genera) un espacio de orden @p order en el buddySystem @p T
-/// @param T BuddySystem
-/// @param order Orden a buscar
-/// @return Puntero a espacio encontrado, NULL en caso de no encontrar nada
+/**
+ * @brief Busca (y si es posible genera) un espacio de orden @p order en el buddySystem @p T
+ * @param T BuddySystem
+ * @param order Orden a buscar
+ * @return TreePosition Puntero a espacio encontrado, NULL en caso de no encontrar nada
+ */
 TreePosition find_space(BuddySystem T, unsigned int order)
 {
     // Nodo no valido
@@ -153,10 +167,12 @@ TreePosition find_space(BuddySystem T, unsigned int order)
     return find_space(T->right, order);
 }
 
-/// @brief Elimina un Proceso del BuddySystem @p T dejando el espacio libre para otro proceso.
-/// @param P Proceso a eliminar
-/// @param T BuddySystem
-/// @return NULL en caso de exito
+/**
+ * @brief Elimina un Proceso del BuddySystem @p T dejando el espacio libre para otro proceso.
+ * @param P Proceso a eliminar
+ * @param T BuddySystem
+ * @return NULL en caso de exito
+ */
 BuddySystem free_buddy(Process* P, BuddySystem T)
 {
     TreePosition buddyNode = find_buddy(P, T);
@@ -177,9 +193,11 @@ BuddySystem free_buddy(Process* P, BuddySystem T)
     return NULL;
 }
 
-/// @brief Entrega el proceso asociado a un Buddy
-/// @param B Buddy a consultar
-/// @return Informacion del proceso asociado al buddy @p B
+/**
+ * @brief Entrega el proceso asociado a un Buddy
+ * @param B BUddy a consultar
+ * @return Informacion del proceso asociado al buddy @p B
+ */
 Process* retrieve_buddy(Buddy B)
 {
     return B.process;
@@ -192,6 +210,7 @@ void print_buddy_system(BuddySystem T)
     }
     if(T->element.process != NULL){
         printf("%d , %2d\n",T->element.order,T->element.process->PID);
+        print_process(*T->element.process);
     }
     else{
         printf("%d , -1\n",T->element.order);
@@ -200,8 +219,10 @@ void print_buddy_system(BuddySystem T)
     print_buddy_system(T->right);
 }
 
-/// @brief Combina el Buddy @p T de ser posible con su Buddy de manera recursiva
-/// @param T Buddy a combinar
+/**
+ * @brief Combina el Buddy @p T de ser posible con su Buddy de manera recursiva
+ * @param T Buddy a combinar
+ */
 void merge_buddy(TreePosition T){
     TreePosition parent = T->parent;
     if(T->element.process != NULL){

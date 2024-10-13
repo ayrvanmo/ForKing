@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
         values[0] = i;
         values[1] = rand() % 100;
         values[2] = rand() % 100;
-        values[3] = (rand() % 512 + 128 + 1) - 128;
+        values[3] = (rand() % (512 -128 +1)) + 128;
         fprintf(outputInfo, "%u %u %u %u\n", values[0], values[1], values[2], values[3]);
     }
 

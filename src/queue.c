@@ -6,12 +6,14 @@
 
 /**
  * @brief Función para verificar si una cola está vacia
+ *
  * @param Q Cola
  * @return true: está vacia. false: no está vacia
- */
+*/
 bool is_empty_queue(Queue Q){
     return Q->centinel->process.PID == 0;
 }
+/*------------------END------------ */
 
  /**
   * @brief Función para crear una cola
@@ -36,13 +38,14 @@ Queue create_queue(){
 
     return Q;
 }
+/*---------END---------*/
 
 
 /**
  * @brief Función para vaciar una cola con elementos
  * @param Q Cola
  * @note No elimina la cola, solo los elementos de ella. La vacia.
- */ 
+ */
 void make_empty_queue(Queue Q){
 
     // caso la cola ya está vacia o es nula
@@ -65,6 +68,7 @@ void make_empty_queue(Queue Q){
     Q->centinel->process.PID = 0;
     Q->centinel->prev = Q->centinel->next = Q->centinel;
 }
+/*--------END------*/
 
 /**
  * @brief Liberar memoria de la cola
@@ -96,10 +100,10 @@ void enqueue(Process P, Queue Q){
 
     // asignar al nodo nuevo el proceso
     newNode->process=P;
-    
+
     // variable auxilar para no perder la cola anterior
+
     CircularNode *position=Q->centinel->prev;
-    
     Q->centinel->prev=newNode; // hacer que el nodo nuevo sea la cola
     newNode->next=Q->centinel; // conexión cola -> centinela
     newNode->prev=position; // conectar cola nueva con cola anterior
@@ -111,6 +115,8 @@ void enqueue(Process P, Queue Q){
     Q->centinel->process.PID++; // aumentar contador del tamaño de la cola}
 
 }
+
+
 
 /**
  * @brief Devuelve el proceso que está en frente de la cola
@@ -126,6 +132,7 @@ Process front(Queue Q){
     printf("ERROR: la cola está vacía");
     exit(1);
 }
+
 
 /**
  * @brief Sacar de la cola el proceso en front
@@ -147,8 +154,10 @@ void dequeue (Queue Q){
     }
 }
 
+
 /**
 * @brief Imprimir la cola
+ *
  * @param Q Cola
  */
 void print_queue(Queue Q){
@@ -160,13 +169,30 @@ void print_queue(Queue Q){
 
         while (position!= Q->centinel) //mientras no se de vuelta a la lista circular
         {
-            printf("PROCESO %d\n",i);
-            printf("PID: %u | Arrival time: %u | Burst time: %u | Memory required: %u\n\n", position->process.PID, position->process.arrivalTime, position->process.burstTime,position->process.memoryRequired);
+            print_process(position->process);
             position=position->next;
             i++;
         }
     }
     else {
-        printf("cola vacia");
+        printf("cola vacia\n");
     }
 }
+
+/**
+ * @brief Función para pasar una lista a una cola
+ * @param L Lista entregada
+ * @return Q Cola creada a partir de la lista
+ */
+/* Queue list_to_queue(List L)
+{
+    Queue Q = create_queue();
+    Node *position = L->head;
+    while (position)
+    {
+        enqueue(position->process, Q);
+        position = position->next;
+    }
+    return Q;
+}
+ */

@@ -39,19 +39,28 @@ struct _processNode {
     Position next; /*!< Puntero al siguiente nodo en la lista enlazada */
 };
 
+List make_empty_list(List L);
 int is_empty_list(List L);
 void print_list(List L);
+void print_process(Process P);
 void delete_list(List L);
 int is_last(Position P);
-List make_empty_list(List L);
-Position find(Process X, List);
+Position find_process(Process X, List);
 Position find_previous(Process X, List L);
 List delete_element(Process X, List L);
 List insert_element(Process X, List L, Position P);
 List header(List L);
 List first(List L);
 Position advance(Position P);
-Process retrieve(Position P	);
+Process retrieve(Position P);
+List sort_list(List L, unsigned int(*criterion)(Process));
 List load_process_list(FILE *file);
+void swap_proceses(Position a, Position b);
+
+// Getters
+unsigned int get_process_pid(Process P);
+unsigned int get_process_arrival_time(Process P);
+unsigned int get_process_burst_time(Process P);
+unsigned int get_process_memory_required(Process P);
 
 #endif
