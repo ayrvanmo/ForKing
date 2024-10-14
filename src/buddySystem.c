@@ -10,7 +10,7 @@
  * @param T BuddySystem a generar
  * @return BuddySystem vacio
  */
-BuddySystem empty_buddy_system(BuddySystem T)
+BuddySystem empty_buddy_system(BuddySystem T, SystemConfig config)
 {
     if(T != NULL){
         delete_buddy_system(T);
@@ -20,11 +20,11 @@ BuddySystem empty_buddy_system(BuddySystem T)
     if(T == NULL){
         printf("ERROR");
     }
-
-    T->element.order = log2(MAX_MEMORY)-log2(MIN_MEMORY);
+    T->element.order = log2(config.totalMemory)-log2(config.minMemory);
     T->element.isUsed = 0;
     T->element.process = NULL;
     T->parent = T->left = T->right = NULL;
+    print_buddy_system(T);
     return T;
 }
 
@@ -86,10 +86,12 @@ TreePosition find_buddy(Process* P, BuddySystem T)
  * @param T BuddySystem en el que se insertara el proceso
  * @return BuddySystem Nodo en el que se almaceno el proceso @p P
  */
-BuddySystem insert_buddy(Process* P, BuddySystem T)
+BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status)
 {
+    printf("Proceso recibido:\n");
+    print_process(*P);
     // Calculo de orden requerida
-    unsigned int processOrder = ceil(log2(P->memoryRequired)-log2(MIN_MEMORY));
+    unsigned int processOrder = ceil(log2(P->memoryRequired)-log2(config.minMemory));
 
     printf("El proceso de PID %d requiere %d bytes de memoria, orden requerido: %d\n", P->PID, P->memoryRequired, processOrder);
 
@@ -105,6 +107,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T)
     processNode->element.process = P;
     processNode->element.order = processOrder;
     processNode->element.isUsed = 1;
+    status->avaliableMemory-=(config.totalMemory)/pow(2,T->element.order - processOrder);
 
     return processNode;
 }
@@ -114,7 +117,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T)
  * @param T BuddySystem
  * @param order Orden a buscar
  * @return TreePosition Puntero a espacio encontrado, NULL en caso de no encontrar nada
- */
+*/
 TreePosition find_space(BuddySystem T, unsigned int order)
 {
     // Nodo no valido
@@ -168,7 +171,7 @@ TreePosition find_space(BuddySystem T, unsigned int order)
  * @param T BuddySystem
  * @return NULL en caso de exito
  */
-BuddySystem free_buddy(Process* P, BuddySystem T)
+BuddySystem free_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status)
 {
     TreePosition buddyNode = find_buddy(P, T);
 
@@ -181,6 +184,7 @@ BuddySystem free_buddy(Process* P, BuddySystem T)
         printf("Inconsistencia, buddy encontrado tiene hijos\n");
         return NULL;
     }
+    status->avaliableMemory +=  (config.totalMemory)/pow(2,T->element.order - buddyNode->element.order);
     buddyNode->element.process = NULL;
     buddyNode->element.isUsed = 0;
     merge_buddy(buddyNode);

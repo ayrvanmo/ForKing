@@ -34,13 +34,13 @@ int main(int argc, char* argv[]){
         - Numero de nucleos
         - Quantum
     */
-   fprintf(outputInfo, "%u %u %u %u\n\n", 3000, 100, 4, 10);
+   fprintf(outputInfo, "%u %u %u %u\n\n", 3000, 100, 4, 5);
 
     // Imprimir el archivo de entrada
     for(int i = 0; i < numProcesses; i++){
         values[0] = i;
-        values[1] = rand() % 100;
-        values[2] = rand() % 100;
+        values[1] = rand() % 15;
+        values[2] = (rand() % 9)+1;
         values[3] = (rand() % (512 -128 +1)) + 128;
         fprintf(outputInfo, "%u %u %u %u\n", values[0], values[1], values[2], values[3]);
     }

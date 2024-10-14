@@ -7,16 +7,13 @@
 #ifndef BUDDY_SYSTEM
 #define BUDDY_SYSTEM
 
-#include<stdlib.h>
-#include<stdio.h>
-#include<stdbool.h>
-#include<math.h>
-#include<unistd.h>
-#include"process.h"
-
-// Defines provisorios
-#define MAX_MEMORY 2048
-#define MIN_MEMORY 128
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
+#include <unistd.h>
+#include "process.h"
+#include "files.h"
 
 typedef struct _buddy Buddy;
 typedef struct _treeNode TreeNode;
@@ -43,12 +40,12 @@ struct _treeNode{
 	TreePosition right; /*!<Hijo derecho del nodo*/
 };
 
-BuddySystem empty_buddy_system(BuddySystem T);
+BuddySystem empty_buddy_system(BuddySystem T, SystemConfig config);
 BuddySystem delete_buddy_system(BuddySystem T);
 TreePosition find_buddy(Process* P, BuddySystem T);
-BuddySystem insert_buddy(Process* P, BuddySystem T);
+BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status);
 TreePosition find_space(BuddySystem T, unsigned int order);
-BuddySystem free_buddy(Process* P, BuddySystem T);
+BuddySystem free_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status);
 Process* retrieve_buddy(Buddy B);
 void print_buddy_system(BuddySystem B);
 void merge_buddy(TreePosition T);

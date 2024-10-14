@@ -10,3 +10,4 @@ Milton Hernandez, Ivan Mansilla, Ayrton Morrison
 - [ ] Trabajar con procesos paralelos
 - [ ] Manejar casos limites
 - [ ] Solucionar el problema de la wating_queue **URGENTE**
+- [ ] Optimizar operaciones con potencias de dos en el BuddySystem (Binario)

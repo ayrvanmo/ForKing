@@ -23,7 +23,7 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
     if(!fscanf(inputInfo, "%u", &forkingConfig->minMemory)){
         printf("No se ha podido leer la memoria minima\n");
     }
-    forkingConfig->minMemory = pow(2, ceil(log2(forkingConfig->minMemory)));
+    forkingConfig->minMemory = pow(2, floor(log2(forkingConfig->minMemory)));
 
     // Nucleos del procesador
     if(!fscanf(inputInfo, "%u", &forkingConfig->cpuCores)){

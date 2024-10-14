@@ -150,7 +150,7 @@ Position insert_element(Process X, List L, Position P)
     Tmpcell->next = P->next;
     P->next = Tmpcell;
     L->data.PID++;
-    return L;
+    return P->next;
 }
 /**
  * @brief Inserta un proceso al final de la lista
