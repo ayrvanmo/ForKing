@@ -56,6 +56,8 @@ int main(int argc, char* argv[]) {
 			forkingStatus.waitingQueueNumber--;
 		}
 
+		
+
 		// Llevar los procesos que corresponda al ArrivalQueue
 		while(first(forkingConfig.processes) && (first(forkingConfig.processes)->data.arrivalTime == forkingStatus.ticks)){ // Funciona solo si la lista de procesos esta ordenada
 			auxProcess = first(forkingConfig.processes)->data;
@@ -64,9 +66,8 @@ int main(int argc, char* argv[]) {
 			enqueue(auxProcessPtr, arrivalQueue);
 			forkingStatus.arrivalQueueNumber++;
 		}
-/*         printf("Luego de sacar los procesos de la lista de procesos:\n");
-		print_queue(arrivalQueue);
-		printf("\n\n\n"); */
+
+		
 
 		// Liberar el ArrivalQueue
 		while(!is_empty_queue(arrivalQueue)){
@@ -76,13 +77,13 @@ int main(int argc, char* argv[]) {
 				enqueue(auxProcessPtr, waitingQueue);
 				forkingStatus.waitingQueueNumber++;
 			}
-			else if(auxProcessPtr->burstTime > forkingConfig.timeQuantum){
-				enqueue(auxProcessPtr, rrQueue);
-				forkingStatus.rrQueueNumber++;
-			}
-			else{
+			else if(auxProcessPtr->burstTime < forkingConfig.timeQuantum){
 				enqueue(auxProcessPtr, sjfQueue);
 				forkingStatus.sjfQueueNumber++;
+			}
+			else{
+				enqueue(auxProcessPtr, rrQueue);
+				forkingStatus.rrQueueNumber++;
 			}
 			dequeue(arrivalQueue);
 			forkingStatus.arrivalQueueNumber--;
@@ -102,34 +103,43 @@ int main(int argc, char* argv[]) {
 		}
 		else if(!is_empty_queue(rrQueue)){ // RoundRobin
 			printf("ACTUAL QUANTUM TIME: %u\n", forkingStatus.remainingQuantumTime);
-			front(rrQueue)->burstTime--; // Trabajo en el proceso
 			forkingStatus.remainingQuantumTime--;
-			if(front(rrQueue)->burstTime == 0){ // Proceso terminado
-				printf("Burst 0\n");
-				free_buddy(front(rrQueue), forkingBuddySystem, forkingConfig, &forkingStatus);
-				forkingStatus.remainingProceses--;
-				dequeue(rrQueue);
-				forkingStatus.rrQueueNumber--;
-				forkingStatus.remainingQuantumTime = forkingConfig.timeQuantum;
-			}
-			else if(forkingStatus.remainingQuantumTime == 0){
-				forkingStatus.remainingQuantumTime = forkingConfig.timeQuantum;
-				if(front(rrQueue)->burstTime < forkingConfig.timeQuantum){
-					auxProcessPtr = front(rrQueue);
-					dequeue(rrQueue);
+			front(rrQueue)->burstTime--; // Trabajo en el proceso
+		
+			
+			//termino de proceso
+			if(front(rrQueue)->burstTime == 0){
+					printf("Burst 0\n");
+					free_buddy(front(rrQueue), forkingBuddySystem, forkingConfig, &forkingStatus);
+					forkingStatus.remainingProceses--;
 					forkingStatus.rrQueueNumber--;
-					enqueue(auxProcessPtr, sjfQueue);
-					forkingStatus.sjfQueueNumber++;
+					// reiniciar quantum
 					forkingStatus.remainingQuantumTime = forkingConfig.timeQuantum;
-				}
-				else{
-					auxProcessPtr = front(rrQueue);
 					dequeue(rrQueue);
-					enqueue(auxProcessPtr, rrQueue); //Como hay un dequeue y un enqueue a la vez, no se altera la cantidad en cola
-					forkingStatus.rrQueueNumber++;
+			}
+
+			//termino de quantum
+			if(forkingStatus.remainingQuantumTime == 0){
+				
+				auxProcessPtr = front(rrQueue);
+
+				if(auxProcessPtr->burstTime != 0){
+
+					if(auxProcessPtr->burstTime < forkingConfig.timeQuantum){
+						enqueue(auxProcessPtr, sjfQueue);
+						forkingStatus.sjfQueueNumber++;
+						forkingStatus.rrQueueNumber--;
+					}
+					else{
+						enqueue(auxProcessPtr, rrQueue); //Como hay un dequeue y un enqueue a la vez, no se altera la cantidad en cola
+					}
 					forkingStatus.remainingQuantumTime = forkingConfig.timeQuantum;
+					dequeue(rrQueue);
 				}
 			}
+			
+
+		 	
 		}
 
 		// Imprimir TODOOOO
@@ -146,7 +156,7 @@ int main(int argc, char* argv[]) {
 		//print_buddy_system(forkingBuddySystem);
 		printf("\n\n\n\n");
 
-		sleep(1);
+		//sleep(1);
 		forkingStatus.ticks++;
 	}
 
