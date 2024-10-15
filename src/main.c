@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
 	Queue rrQueue = create_queue();
 	Queue sjfQueue = create_queue();
 	BuddySystem forkingBuddySystem;
-	Position listPosition;
 	Process* auxProcessPtr;
 	Process auxProcess;
 
@@ -61,7 +60,7 @@ int main(int argc, char* argv[]) {
 		while(first(forkingConfig.processes) && (first(forkingConfig.processes)->data.arrivalTime == forkingStatus.ticks)){ // Funciona solo si la lista de procesos esta ordenada
 			auxProcess = first(forkingConfig.processes)->data;
 			delete_element(first(forkingConfig.processes)->data, forkingConfig.processes);
-			auxProcessPtr = insert_element_end(auxProcess, forkingConfig.processes);
+			auxProcessPtr = &insert_element_end(auxProcess, forkingConfig.processes)->data;
 			enqueue(auxProcessPtr, arrivalQueue);
 			forkingStatus.arrivalQueueNumber++;
 		}

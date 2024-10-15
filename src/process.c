@@ -254,7 +254,7 @@ List load_process_list(FILE *file)
 		return NULL;
 	}
 
-	List L = make_empty_list(L);
+	List L = make_empty_list(NULL);
 	Process P;
 	while(!feof(file)){
 		if(fscanf(file, "%u %u %u %u", &P.PID, &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 4){
