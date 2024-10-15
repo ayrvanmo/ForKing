@@ -11,38 +11,37 @@
  * @return true: está vacia. false: no está vacia
 */
 bool is_empty_queue(Queue Q){
-    return Q->centinel->process->PID == 0;
+	return Q->centinel->process->PID == 0;
 }
-/*------------------END------------ */
 
  /**
   * @brief Función para crear una cola
   * @note Se crea una cola vacía, con un centinela
   */
 Queue create_queue(){
-    //pedir memoria
-    Queue Q=(Queue)malloc(sizeof(QueueRecord));
-    if(!Q){
-        printf("ERROR: No hay memoria disponible");
-        exit(1);
-    }
-    //asignar valores iniciales
-    Q->centinel=malloc(sizeof(CircularNode));
-    if(Q->centinel==NULL){
-        printf("ERROR: No hay memoria disponible");
-        exit(1);
-    }
+	//pedir memoria
+	Queue Q=(Queue)malloc(sizeof(QueueRecord));
+	if(!Q){
+		printf("ERROR: No hay memoria disponible");
+		exit(1);
+	}
+	//asignar valores iniciales
+	Q->centinel=malloc(sizeof(CircularNode));
+	if(Q->centinel==NULL){
+		printf("ERROR: No hay memoria disponible");
+		exit(1);
+	}
 
-    Q->centinel->process=malloc(sizeof(Process));
-    if(Q->centinel==NULL){
-        printf("ERROR: No hay memoria disponible");
-        exit(1);
-    }
+	Q->centinel->process=malloc(sizeof(Process));
+	if(Q->centinel==NULL){
+		printf("ERROR: No hay memoria disponible");
+		exit(1);
+	}
 
-    Q->centinel->process->PID=0; //PID del centinela será el tamaño de la cola!!!
-    Q->centinel->prev = Q->centinel->next = Q->centinel;
+	Q->centinel->process->PID=0; //PID del centinela será el tamaño de la cola!!!
+	Q->centinel->prev = Q->centinel->next = Q->centinel;
 
-    return Q;
+	return Q;
 }
 /*---------END---------*/
 
@@ -54,27 +53,26 @@ Queue create_queue(){
  */
 void make_empty_queue(Queue Q){
 
-    // caso la cola ya está vacia o es nula
-    if(!Q || is_empty_queue(Q)){
-        return;
-    }
+	// caso la cola ya está vacia o es nula
+	if(!Q || is_empty_queue(Q)){
+		return;
+	}
 
-    // caso la cola no está vacia
-    CircularNode *position = Q->centinel->next;
-    CircularNode *nextPosition;
+	// caso la cola no está vacia
+	CircularNode *position = Q->centinel->next;
+	CircularNode *nextPosition;
 
-    // liberar memoria de la cola
-    do{
-        nextPosition = position->next;
-        free(position);
-        position=nextPosition;
-    } while(position != Q->centinel->next);
+	// liberar memoria de la cola
+	do{
+		nextPosition = position->next;
+		free(position);
+		position=nextPosition;
+	} while(position != Q->centinel->next);
 
-    // volver a valores iniciales
-    Q->centinel->process->PID = 0;
-    Q->centinel->prev = Q->centinel->next = Q->centinel;
+	// volver a valores iniciales
+	Q->centinel->process->PID = 0;
+	Q->centinel->prev = Q->centinel->next = Q->centinel;
 }
-/*--------END------*/
 
 /**
  * @brief Liberar memoria de la cola
@@ -82,12 +80,11 @@ void make_empty_queue(Queue Q){
  * @note Elimina la cola
  */
 void free_queue(Queue Q){
-    if(Q){
-        make_empty_queue(Q);
-        free(Q);
-    }
+	if(Q){
+		make_empty_queue(Q);
+		free(Q);
+	}
 }
-
 
 /**
  * @brief Agregar proceso a la cola
@@ -97,32 +94,30 @@ void free_queue(Queue Q){
  */
 void enqueue(Process* P, Queue Q){
 
-    CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
-    // error de memoria
-    if(!newNode){
-        printf("ERROR: No hay memoria disponible");
-        exit(1);
-    }
+	CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
+	// error de memoria
+	if(!newNode){
+		printf("ERROR: No hay memoria disponible");
+		exit(1);
+	}
 
-    // asignar al nodo nuevo el proceso
-    newNode->process=P;
+	// asignar al nodo nuevo el proceso
+	newNode->process=P;
 
-    // variable auxilar para no perder la cola anterior
+	// variable auxilar para no perder la cola anterior
 
-    CircularNode *position=Q->centinel->prev;
-    Q->centinel->prev=newNode; // hacer que el nodo nuevo sea la cola
-    newNode->next=Q->centinel; // conexión cola -> centinela
-    newNode->prev=position; // conectar cola nueva con cola anterior
-    position->next=newNode;
-    if(is_empty_queue(Q)){
-        Q->centinel->next=newNode; //si la cola está vacia hacer ese nodo el front
-    }
+	CircularNode *position=Q->centinel->prev;
+	Q->centinel->prev=newNode; // hacer que el nodo nuevo sea la cola
+	newNode->next=Q->centinel; // conexión cola -> centinela
+	newNode->prev=position; // conectar cola nueva con cola anterior
+	position->next=newNode;
+	if(is_empty_queue(Q)){
+		Q->centinel->next=newNode; //si la cola está vacia hacer ese nodo el front
+	}
 
-    Q->centinel->process->PID++; // aumentar contador del tamaño de la cola}
+	Q->centinel->process->PID++; // aumentar contador del tamaño de la cola}
 
 }
-
-
 
 /**
  * @brief Devuelve el proceso que está en frente de la cola
@@ -131,14 +126,13 @@ void enqueue(Process* P, Queue Q){
  */
 Process* front(Queue Q){
 
-    if(!is_empty_queue(Q)){
-        return Q->centinel->next->process;
-    }
+	if(!is_empty_queue(Q)){
+		return Q->centinel->next->process;
+	}
 
-    printf("ERROR: la cola está vacía");
-    exit(1);
+	printf("ERROR: la cola está vacía");
+	exit(1);
 }
-
 
 /**
  * @brief Sacar de la cola el proceso en front
@@ -146,18 +140,18 @@ Process* front(Queue Q){
  */
 void dequeue (Queue Q){
 
-    if(is_empty_queue(Q)){
-        printf("ERROR: la cola está vacía");
-    }
-    else {
+	if(is_empty_queue(Q)){
+		printf("ERROR: la cola está vacía");
+	}
+	else {
 
-        CircularNode* aux = Q->centinel->next->next; // auxiliar para no perder el 2do nodo en la cola
+		CircularNode* aux = Q->centinel->next->next; // auxiliar para no perder el 2do nodo en la cola
 
-        free(Q->centinel->next); // liberar memoria del frente antiguo
-        Q->centinel->next=aux; // hacer que el 2do nodo sea el nuevo frente
-        Q->centinel->process->PID--; //descontar contador
+		free(Q->centinel->next); // liberar memoria del frente antiguo
+		Q->centinel->next=aux; // hacer que el 2do nodo sea el nuevo frente
+		Q->centinel->process->PID--; //descontar contador
 
-    }
+	}
 }
 
 
@@ -168,37 +162,19 @@ void dequeue (Queue Q){
  */
 void print_queue(Queue Q){
 
-    if(!is_empty_queue(Q)){
+	if(!is_empty_queue(Q)){
 
-        CircularNode *position=Q->centinel->next;
-        int i=1; //contador posición en la cola
+		CircularNode *position=Q->centinel->next;
+		int i=1; //contador posición en la cola
 
-        while (position!= Q->centinel) //mientras no se de vuelta a la lista circular
-        {
-            print_process(*position->process);
-            position=position->next;
-            i++;
-        }
-    }
-    else {
-        printf("cola vacia\n");
-    }
+		while (position!= Q->centinel) //mientras no se de vuelta a la lista circular
+		{
+			print_process(*position->process);
+			position=position->next;
+			i++;
+		}
+	}
+	else {
+		printf("cola vacia\n");
+	}
 }
-
-/**
- * @brief Función para pasar una lista a una cola
- * @param L Lista entregada
- * @return Q Cola creada a partir de la lista
- */
-/* Queue list_to_queue(List L)
-{
-    Queue Q = create_queue();
-    Node *position = L->head;
-    while (position)
-    {
-        enqueue(position->process, Q);
-        position = position->next;
-    }
-    return Q;
-}
- */

@@ -17,25 +17,25 @@
 */
 typedef struct SystemConfig
 {
-    unsigned int totalMemory;/*!< Memoria total disponible*/
-    unsigned int minMemory;/*!< Memoria minima a utilizar */
-    unsigned int cpuCores;/*!< Cantidad de "nucleos" del "procesador" */
-    unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
-    List processes;
+	unsigned int totalMemory;/*!< Memoria total disponible*/
+	unsigned int minMemory;/*!< Memoria minima a utilizar */
+	unsigned int cpuCores;/*!< Cantidad de "nucleos" del "procesador" */
+	unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
+	List processes;
 } SystemConfig;
 
 
 typedef struct SystemStatus
 {
-    unsigned int ticks;
-    unsigned int arrivalQueueNumber;
-    unsigned int waitingQueueNumber;
-    unsigned int rrQueueNumber;
-    unsigned int sjfQueueNumber;
-    unsigned int avaliableMemory;
-    unsigned int totalProceses;
-    unsigned int remainingProceses;
-    unsigned int remainingQuantumTime;
+	unsigned int ticks;
+	unsigned int arrivalQueueNumber;
+	unsigned int waitingQueueNumber;
+	unsigned int rrQueueNumber;
+	unsigned int sjfQueueNumber;
+	unsigned int avaliableMemory;
+	unsigned int totalProceses;
+	unsigned int remainingProceses;
+	unsigned int remainingQuantumTime;
 } SystemStatus;
 
 int read_input_file(char* file_name, SystemConfig* forkingConfig);

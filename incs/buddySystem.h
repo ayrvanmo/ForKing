@@ -42,10 +42,10 @@ struct _treeNode{
 
 BuddySystem empty_buddy_system(BuddySystem T, SystemConfig config);
 BuddySystem delete_buddy_system(BuddySystem T);
-TreePosition find_buddy(Process* P, BuddySystem T);
 BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status);
-TreePosition find_space(BuddySystem T, unsigned int order);
 BuddySystem free_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status);
+TreePosition find_buddy(Process* P, BuddySystem T);
+TreePosition find_space(BuddySystem T, unsigned int order);
 Process* retrieve_buddy(Buddy B);
 void print_buddy_system(BuddySystem B);
 void merge_buddy(TreePosition T);

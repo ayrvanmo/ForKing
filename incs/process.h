@@ -35,30 +35,29 @@ typedef ptrToNode List;
 */
 
 struct _processNode {
-    Process data; /*!< Parámetros del proceso */
-    Position next; /*!< Puntero al siguiente nodo en la lista enlazada */
+	Process data; /*!< Parámetros del proceso */
+	Position next; /*!< Puntero al siguiente nodo en la lista enlazada */
 };
 
-List make_empty_list(List L);
+
 int is_empty_list(List L);
+int is_last(Position P);
 void print_list(List L);
 void print_process(Process P);
 void delete_list(List L);
-int is_last(Position P);
+void swap_proceses(Position a, Position b);
 Position find_process(Process X, List);
 Position find_previous(Process X, List L);
+Position advance(Position P);
+Process retrieve(Position P);
+List make_empty_list(List L);
 List delete_element(Process X, List L);
 List insert_element(Process X, List L, Position P);
 List insert_element_end(Process X, List L);
 List header(List L);
 List first(List L);
-Position advance(Position P);
-Process retrieve(Position P);
 List sort_list(List L, unsigned int(*criterion)(Process));
 List load_process_list(FILE *file);
-void swap_proceses(Position a, Position b);
-
-// Getters
 unsigned int get_process_pid(Process P);
 unsigned int get_process_arrival_time(Process P);
 unsigned int get_process_burst_time(Process P);

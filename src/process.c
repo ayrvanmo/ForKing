@@ -11,7 +11,7 @@
  */
 int is_empty_list(List L)
 {
-    return L->next == NULL;
+	return L->next == NULL;
 }
 /**
  * @brief Imprime en pantalla la lista de procesos
@@ -19,28 +19,28 @@ int is_empty_list(List L)
  */
 void print_list(List L)
 {
-    printf("La lista de procesos es: \n");
-    Position P;
-    P = L->next;
-    int i = 1;
-    while(P != NULL){
-        print_process(P->data);
-        P = P->next;
-        i++;
-    }
-    if(is_empty_list(L)){
-        printf("La lista esta vacia\n");
-    }
+	printf("La lista de procesos es: \n");
+	Position P;
+	P = L->next;
+	int i = 1;
+	while(P != NULL){
+		print_process(P->data);
+		P = P->next;
+		i++;
+	}
+	if(is_empty_list(L)){
+		printf("La lista esta vacia\n");
+	}
 }
 /**
  * @brief Imprime en pantalla un proceso
  * @param P Proceso a imprimir
  */
 void print_process(Process P){
-    printf("PID:%5d ", P.PID);
-    printf("Arrival:%5d ",P.arrivalTime);
-    printf("Burst:%5d ",P.burstTime);
-    printf("Memory:%5d \n",P.memoryRequired);
+	printf("PID:%5d ", P.PID);
+	printf("Arrival:%5d ",P.arrivalTime);
+	printf("Burst:%5d ",P.burstTime);
+	printf("Memory:%5d \n",P.memoryRequired);
 }
 /**
  * @brief Elimina y libera la memoria de la lista de procesos
@@ -48,14 +48,14 @@ void print_process(Process P){
  */
 void delete_list(List L)
 {
-    Position P, Tmp;
-    P = L->next;
-    L->next = NULL;
-    while(P!= NULL){
-        Tmp = P->next;
-        free(P);
-        P = Tmp;
-    }
+	Position P, Tmp;
+	P = L->next;
+	L->next = NULL;
+	while(P!= NULL){
+		Tmp = P->next;
+		free(P);
+		P = Tmp;
+	}
 }
 /**
  * @brief Verifica si un proceso es el ultimo elemento de su lista.
@@ -64,7 +64,7 @@ void delete_list(List L)
  */
 int is_last(Position P)
 {
-    return P->next == NULL;
+	return P->next == NULL;
 }
 /**
  * @brief Inicializa una lista vacia o vacia una ya existente
@@ -73,16 +73,16 @@ int is_last(Position P)
  */
 List make_empty_list(List L)
 {
-    if(L != NULL){
-        delete_list(L);
-    }
-    L = malloc(sizeof(ProcessNode));
-    if(L == NULL){
-        printf("ERROR FATAL, NO HAY MEMORIA");
-    }
-    L->data.PID = 0;
-    L->next = NULL;
-    return L;
+	if(L != NULL){
+		delete_list(L);
+	}
+	L = malloc(sizeof(ProcessNode));
+	if(L == NULL){
+		printf("ERROR FATAL, NO HAY MEMORIA");
+	}
+	L->data.PID = 0;
+	L->next = NULL;
+	return L;
 }
 /**
  * @brief Encuentra un proceso dentro de la lista de procesos
@@ -92,12 +92,12 @@ List make_empty_list(List L)
  */
 Position find_process(Process X, List L)
 {
-    Position P;
-    P = L->next;
-    while(P != NULL && P->data.PID != X.PID){
-        P = P->next;
-    }
-    return P;
+	Position P;
+	P = L->next;
+	while(P != NULL && P->data.PID != X.PID){
+		P = P->next;
+	}
+	return P;
 }
 /**
  * @brief Encuentra el proceso anterior a uno dado
@@ -107,12 +107,12 @@ Position find_process(Process X, List L)
  */
 Position find_previous(Process X, List L)
 {
-    Position P;
-    P = L;
-    while(P->next != NULL && P->next->data.PID != X.PID){
-        P = P->next;
-    }
-    return P;
+	Position P;
+	P = L;
+	while(P->next != NULL && P->next->data.PID != X.PID){
+		P = P->next;
+	}
+	return P;
 }
 /**
  * @brief Se encarga de eliminar un proceso de la lista de procesos
@@ -122,15 +122,15 @@ Position find_previous(Process X, List L)
  */
 Position delete_element(Process X, List L)
 {
-    Position P, TmpCell;
-    P = find_previous(X, L);
-    if(!is_last(P)){
-        TmpCell = P->next;
-        P->next = TmpCell->next;
-        free(TmpCell);
-    }
-    L->data.PID--;
-    return P;
+	Position P, TmpCell;
+	P = find_previous(X, L);
+	if(!is_last(P)){
+		TmpCell = P->next;
+		P->next = TmpCell->next;
+		free(TmpCell);
+	}
+	L->data.PID--;
+	return P;
 }
 /**
  * @brief Inserta un proceso dentro de una lista de procesos
@@ -141,16 +141,16 @@ Position delete_element(Process X, List L)
  */
 Position insert_element(Process X, List L, Position P)
 {
-    Position Tmpcell;
-    Tmpcell = malloc(sizeof(ProcessNode));
-    if(Tmpcell == NULL && X.PID == 0){
-        printf("ERROR FATAL, NO HAY MEMORIA O SE INTENTO INSERTAR UN PID 0");
-    }
-    Tmpcell->data = X;
-    Tmpcell->next = P->next;
-    P->next = Tmpcell;
-    L->data.PID++;
-    return P->next;
+	Position Tmpcell;
+	Tmpcell = malloc(sizeof(ProcessNode));
+	if(Tmpcell == NULL && X.PID == 0){
+		printf("ERROR FATAL, NO HAY MEMORIA O SE INTENTO INSERTAR UN PID 0");
+	}
+	Tmpcell->data = X;
+	Tmpcell->next = P->next;
+	P->next = Tmpcell;
+	L->data.PID++;
+	return P->next;
 }
 /**
  * @brief Inserta un proceso al final de la lista
@@ -159,11 +159,11 @@ Position insert_element(Process X, List L, Position P)
  * @return Position Retorna la posicion del proceso insertado
  */
 Position insert_element_end(Process X, List L){
-    Position P = L;
-    while(P->next != NULL){
-        P = P->next; //LLEGA HASTA EL FINAL DE LA LISTA GUARDANDO LA POSICION
-    }
-    return insert_element(X, L, P); //RETORNA UNA INSERCION EN LA POSICION AL FINAL DE LA LISTA
+	Position P = L;
+	while(P->next != NULL){
+		P = P->next; //LLEGA HASTA EL FINAL DE LA LISTA GUARDANDO LA POSICION
+	}
+	return insert_element(X, L, P); //RETORNA UNA INSERCION EN LA POSICION AL FINAL DE LA LISTA
 }
 
 
@@ -174,7 +174,7 @@ Position insert_element_end(Process X, List L){
  */
 List header(List L)
 {
-    return L;
+	return L;
 }
 /**
  * @brief Entrega el primer elemento de la lista
@@ -183,7 +183,7 @@ List header(List L)
  */
 List first(List L)
 {
-    return L->next;
+	return L->next;
 }
 /**
  * @brief Entrega la posicion contigua a una posicion en la lista
@@ -193,7 +193,7 @@ List first(List L)
  */
 Position advance(Position P)
 {
-    return P->next;
+	return P->next;
 }
 /**
  * @brief Devuelve el proceso dentro de una posicion
@@ -202,7 +202,7 @@ Position advance(Position P)
  */
 Process retrieve(Position P)
 {
-    return P->data;
+	return P->data;
 }
 
 
@@ -214,29 +214,29 @@ Process retrieve(Position P)
  * @return List Retorna la lista ordenada
  */
 List sort_list(List L, unsigned int(*criterion)(Process)){
-    if(is_empty_list(L)){
-        printf("Lista vacia\n");
-        return NULL;
-    }
-    unsigned int listSize = L->data.PID;
-    unsigned int toOrder = listSize-1;
-    Position P;
+	if(is_empty_list(L)){
+		printf("Lista vacia\n");
+		return NULL;
+	}
+	unsigned int listSize = L->data.PID;
+	unsigned int toOrder = listSize-1;
+	Position P;
 
-    P=L->next;
-    while(toOrder > 0){
-        for(unsigned int i = 0; i < toOrder; i++){
-            unsigned int criterion1 = criterion(P->data);
-            unsigned int criterion2 = criterion(P->next->data);
-            if(criterion1 > criterion2){
-                swap_proceses(P, P->next);
-            }
-            P = P->next;
-        }
-        P=L->next;
-        toOrder--;
+	P=L->next;
+	while(toOrder > 0){
+		for(unsigned int i = 0; i < toOrder; i++){
+			unsigned int criterion1 = criterion(P->data);
+			unsigned int criterion2 = criterion(P->next->data);
+			if(criterion1 > criterion2){
+				swap_proceses(P, P->next);
+			}
+			P = P->next;
+		}
+		P=L->next;
+		toOrder--;
 
-    }
-    return L;
+	}
+	return L;
 }
 
 
@@ -248,23 +248,23 @@ List sort_list(List L, unsigned int(*criterion)(Process)){
  */
 List load_process_list(FILE *file)
 {
-    // Comprobamos que el archivo sea abierto
-    if(file == NULL){
-        printf("ERROR FATAL, NO SE ENTREGO UN ARCHIVO ABIERTO\n");
-        return NULL;
-    }
+	// Comprobamos que el archivo sea abierto
+	if(file == NULL){
+		printf("ERROR FATAL, NO SE ENTREGO UN ARCHIVO ABIERTO\n");
+		return NULL;
+	}
 
-    List L = make_empty_list(L);
-    Process P;
-    while(!feof(file)){
-        if(fscanf(file, "%u %u %u %u", &P.PID, &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 4){
-            // printf("Proceso leido: PID: %u, Arrival Time: %u, Burst Time: %u, Memory Required: %u\n",P.PID, P.arrivalTime, P.burstTime, P.memoryRequired);
-            insert_element(P, L, header(L));
-        }
-    }
+	List L = make_empty_list(L);
+	Process P;
+	while(!feof(file)){
+		if(fscanf(file, "%u %u %u %u", &P.PID, &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 4){
+			// printf("Proceso leido: PID: %u, Arrival Time: %u, Burst Time: %u, Memory Required: %u\n",P.PID, P.arrivalTime, P.burstTime, P.memoryRequired);
+			insert_element(P, L, header(L));
+		}
+	}
 
-    // No se hace fclose() dentro de esta funcion.
-    return L;
+	// No se hace fclose() dentro de esta funcion.
+	return L;
 }
 
 
@@ -277,7 +277,7 @@ List load_process_list(FILE *file)
  * @return unsigned int Devuelve el PID del proceso
  */
 unsigned int get_process_pid(Process P){
-    return P.PID;
+	return P.PID;
 }
 /**
  * @brief Obtiene el tiempo de llegada de un proceso
@@ -285,7 +285,7 @@ unsigned int get_process_pid(Process P){
  * @return unsigned int Devuelve el tiempo de llegada del proceso
  */
 unsigned int get_process_arrival_time(Process P){
-    return P.arrivalTime;
+	return P.arrivalTime;
 }
 /**
  * @brief Obtiene el tiempo requerido por un proceso
@@ -293,7 +293,7 @@ unsigned int get_process_arrival_time(Process P){
  * @return unsigned int Devuelve el tiempo de rafaga del proceso
  */
 unsigned int get_process_burst_time(Process P){
-    return P.burstTime;
+	return P.burstTime;
 }
 /**
  * @brief Obtiene la memoria requerida por un proceso
@@ -301,7 +301,7 @@ unsigned int get_process_burst_time(Process P){
  * @return unsigned int Devuelve la memoria requerida por el proceso
  */
 unsigned int get_process_memory_required(Process P){
-    return P.memoryRequired;
+	return P.memoryRequired;
 }
 
 /**
@@ -310,7 +310,7 @@ unsigned int get_process_memory_required(Process P){
  * @param b Proceso 2 para intercambiar
 */
 void swap_proceses(Position a, Position b){
-    Process tmp = a->data;
-    a->data = b->data;
-    b->data = tmp;
+	Process tmp = a->data;
+	a->data = b->data;
+	b->data = tmp;
 }
