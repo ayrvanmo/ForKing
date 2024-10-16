@@ -48,12 +48,10 @@ BuddySystem delete_buddy_system(BuddySystem T)
 			T->parent->right = NULL;
 		}
 	}
-
 	// Eliminacion PostOrder
 	T->left = delete_buddy_system(T->left);
 	T->right = delete_buddy_system(T->right);
 	free(T);
-
 	return NULL;
 }
 

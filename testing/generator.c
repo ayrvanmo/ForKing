@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < numProcesses; i++){
         values[0] = i;
         values[1] = rand() % 15;
-        values[2] = (rand() % 9)+1;
+        values[2] = (rand() % 4)+1;
         values[3] = (rand() % (512 -128 +1)) + 128;
         fprintf(outputInfo, "%u %u %u %u\n", values[0], values[1], values[2], values[3]);
     }

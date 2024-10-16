@@ -267,10 +267,7 @@ List load_process_list(FILE *file)
 	return L;
 }
 
-
-
 // -------- Getters --------
-
 /**
  * @brief Obtiene el PID de un proceso
  * @param P Proceso entregado
