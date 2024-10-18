@@ -11,7 +11,7 @@
 int main(int argc, char* argv[]) {
 	SystemConfig forkingConfig;
 	// Creacion de colas
-	Queue arrivalQueue = create_queue(); // Declarado como cola por comodidad, pero en realidad es una lista
+	Queue arrivalQueue = create_queue(); // Es una lista pero esta utilizada como uan cola por comodidad
 	Queue waitingQueue = create_queue();
 	Queue rrQueue = create_queue();
 	Queue sjfQueue = create_queue();
@@ -31,8 +31,10 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	// Se ordena el arrival_queue segun su arrival time
-	sort_list(forkingConfig.processes, get_process_arrival_time);
+	//bubble_sort(forkingConfig.processes, get_process_arrival_time);
+	merge_sort(forkingConfig.processes, get_process_arrival_time);
 	print_list(forkingConfig.processes);
+	sleep(10);
 	// Inicializacion status
 	SystemStatus forkingStatus = {0, 0, 0, 0, 0, forkingConfig.totalMemory, forkingConfig.processes->data.PID, forkingConfig.processes->data.PID, forkingConfig.timeQuantum};
 

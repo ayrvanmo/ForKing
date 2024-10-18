@@ -9,14 +9,17 @@
  * @param L Lista entregada
  * @return int Devuelve 1 si esta vacia y 0 si no lo esta
  */
+
 int is_empty_list(List L)
 {
 	return L->next == NULL;
 }
+
 /**
  * @brief Imprime en pantalla la lista de procesos
  * @param L Lista entregada
  */
+
 void print_list(List L)
 {
 	printf("La lista de procesos es: \n");
@@ -32,10 +35,12 @@ void print_list(List L)
 		printf("La lista esta vacia\n");
 	}
 }
+
 /**
  * @brief Imprime en pantalla un proceso
  * @param P Proceso a imprimir
  */
+
 void print_process(Process P){
 	printf("PID:%5d ", P.PID);
 	printf("Arrival:%5d ",P.arrivalTime);
@@ -46,6 +51,7 @@ void print_process(Process P){
  * @brief Elimina y libera la memoria de la lista de procesos
  * @param L Lista entregada
  */
+
 void delete_list(List L)
 {
 	Position P, Tmp;
@@ -57,20 +63,24 @@ void delete_list(List L)
 		P = Tmp;
 	}
 }
+
 /**
  * @brief Verifica si un proceso es el ultimo elemento de su lista.
  * @param P
  * @return int
  */
+
 int is_last(Position P)
 {
 	return P->next == NULL;
 }
+
 /**
  * @brief Inicializa una lista vacia o vacia una ya existente
  * @param L Lista entregada
  * @return List Retorna la lista vacia
  */
+
 List make_empty_list(List L)
 {
 	if(L != NULL){
@@ -90,6 +100,7 @@ List make_empty_list(List L)
  * @param L Lista
  * @return Position Retorna la posicion del proceso
  */
+
 Position find_process(Process X, List L)
 {
 	Position P;
@@ -99,6 +110,7 @@ Position find_process(Process X, List L)
 	}
 	return P;
 }
+
 /**
  * @brief Encuentra el proceso anterior a uno dado
  * @param X Proceso que se busca
@@ -114,6 +126,7 @@ Position find_previous(Process X, List L)
 	}
 	return P;
 }
+
 /**
  * @brief Se encarga de eliminar un proceso de la lista de procesos
  * @param X Proceso a eliminar
@@ -132,6 +145,7 @@ Position delete_element(Process X, List L)
 	L->data.PID--;
 	return P;
 }
+
 /**
  * @brief Inserta un proceso dentro de una lista de procesos
  * @param X Proceso dado
@@ -205,15 +219,13 @@ Process retrieve(Position P)
 	return P->data;
 }
 
-
-
 /**
  * @brief Ordena una lista de procesos segun un criterio
  * @param L Lista entregada
  * @param criterion Criterio de ordenamiento
  * @return List Retorna la lista ordenada
  */
-List sort_list(List L, unsigned int(*criterion)(Process)){
+List bubble_sort(List L, unsigned int(*criterion)(Process)){
 	if(is_empty_list(L)){
 		printf("Lista vacia\n");
 		return NULL;
@@ -239,6 +251,112 @@ List sort_list(List L, unsigned int(*criterion)(Process)){
 	return L;
 }
 
+/**
+ * @brief Encuentra el punto medio de una lista
+ * @param L Lista entregada
+ * @return List Retorna el punto medio de la lista
+ */
+List midPoint(List L)
+{
+	Position slow = L;
+	Position fast = L->next;
+
+	while(fast != NULL && fast->next != NULL){
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	return slow;
+
+}
+
+/**
+ * @brief Realiza el merge de las listas a y b segun un criterio
+ * @note Se utiliza en el merge_sort
+ * @param a Lista entregada (1)
+ * @param b Lista entregada (2)
+ * @param criterion Criterio de ordenamiento
+ * @return * List Lista mezclada
+ */
+List merge(Position a, Position b, unsigned int(*criterion)(Process))
+{
+
+	// Implementacion recursiva, segun busque tira segmentation al manejar datos >= 1,000,000 fault por el desborde en pila del propio sistema
+	/*
+	Position result = NULL;
+
+	if(a == NULL){
+		return b;
+	}
+	else if(b == NULL){
+		return a;
+	}
+
+	if(criterion(a->data) <= criterion(b->data)){
+		result = a;
+		result->next = merge(a->next, b, criterion);
+	}
+	else{
+		result = b;
+		result->next = merge(a, b->next, criterion);
+	}
+
+	return result;
+	*/
+
+	// Implementacion iterativa
+    Position tmpNode = (Position)malloc(sizeof(ProcessNode)); // Nodo temporal
+    Position tail = tmpNode; // Cola de la lista fusionada
+
+    while (a != NULL && b != NULL) {
+        if (criterion(a->data) <= criterion(b->data)) {
+            tail->next = a;
+            a = a->next;
+        } else {
+            tail->next = b;
+            b = b->next;
+        }
+        tail = tail->next;
+    }
+
+    if (a != NULL){
+        tail->next = a;
+	}
+    else{
+        tail->next = b;
+	}
+
+    Position result = tmpNode->next;
+    free(tmpNode);
+    return result;
+
+}
+/**
+ * @brief Ordena una lista de procesos segun un criterio
+ * @note Divide y venceras!!!
+ * @param L Lista entregada
+ * @param criterion Critero de ordenamiento
+ * @return List Lista ordenada
+ */
+
+List merge_sort(List L, unsigned int(*criterion)(Process))
+{
+	if(L == NULL || L->next == NULL){
+		return L;
+	}
+	// Encuentra punto medio
+	Position median = midPoint(L);
+
+	// Divide la lista en dos
+	Position a = L;
+	Position b = median->next;
+	median->next = NULL;
+
+	a = merge_sort(a, criterion);
+	b = merge_sort(b, criterion);
+
+	return merge(a, b, criterion);
+}
 
 /**
  * @brief Carga una lista de procesos desde un archivo
