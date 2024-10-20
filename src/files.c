@@ -15,7 +15,7 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 
 	inputInfo = fopen(file_name, "r");
 	if (inputInfo == NULL) {
-		printf("No se ha podido abrir el archivo con la informacion de los procesos\n");
+		print(101, NULL, NULL);
 		return 1;
 	}
 	// Memoria maxima

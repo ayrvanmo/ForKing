@@ -18,7 +18,7 @@ BuddySystem empty_buddy_system(BuddySystem T, SystemConfig config)
 
 	T = malloc(sizeof(struct _treeNode));
 	if(T == NULL){
-		printf("ERROR");
+		print_error(200, NULL, NULL);
 	}
 	T->element.order = log2(config.totalMemory)-log2(config.minMemory);
 	T->element.isUsed = 0;
@@ -134,7 +134,7 @@ TreePosition find_space(BuddySystem T, unsigned int order)
 		// Creamos hijo izquierdo
 		T->left = malloc(sizeof(TreeNode));
 		if(T->left == NULL){
-			printf("ERROR");
+			print_error(200, NULL, NULL);
 			return NULL;
 		}
 		T->left->element.order = T->element.order-1;
@@ -145,7 +145,7 @@ TreePosition find_space(BuddySystem T, unsigned int order)
 		// Creamos hijo derecho
 		T->right = malloc(sizeof(TreeNode));
 		if(T->right == NULL){
-			printf("ERROR");
+			print_error(200, NULL, NULL);
 			return NULL;
 		}
 		T->right->element.order = T->element.order-1;
@@ -174,12 +174,14 @@ BuddySystem free_buddy(Process* P, BuddySystem T, SystemConfig config, SystemSta
 	TreePosition buddyNode = find_buddy(P, T);
 
 	if(buddyNode == NULL){
-		printf("Nodo no encontrado\n");
+		char pid_str[12];
+		sprintf(pid_str, "%d", P->PID);
+		print_error(102, pid_str, NULL);
 		return NULL;
 	}
 
 	if(buddyNode->left || buddyNode->right){
-		printf("Inconsistencia, buddy encontrado tiene hijos\n");
+		print_error(301, NULL, NULL);
 		return NULL;
 	}
 	status->avaliableMemory +=  (config.totalMemory)/pow(2,T->element.order - buddyNode->element.order);
