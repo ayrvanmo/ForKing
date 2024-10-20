@@ -1,3 +1,9 @@
+/**
+ * @file main.c
+ * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
+ * @brief Funcion principal en donde se ejecuta y gestiona el programa
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -5,10 +11,12 @@
 #include "process.h"
 #include "buddySystem.h"
 #include "files.h"
+#include "errors.h"
 
 /* Se usa una funcion llamada forkingConfig declarada en el archivo files.h */
 
 int main(int argc, char* argv[]) {
+
 	SystemConfig forkingConfig;
 	// Creacion de colas
 	Queue arrivalQueue = create_queue(); // Es una lista pero esta utilizada como uan cola por comodidad
