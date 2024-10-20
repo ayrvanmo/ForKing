@@ -20,7 +20,7 @@ BuddySystem empty_buddy_system(BuddySystem T, SystemConfig config)
 	if(T == NULL){
 		print_error(200, NULL, NULL);
 	}
-	T->element.order = log2(config.totalMemory)-log2(config.minMemory);
+	T->element.order = floor_log2(config.totalMemory)-floor_log2(config.minMemory);
 	T->element.isUsed = 0;
 	T->element.process = NULL;
 	T->parent = T->left = T->right = NULL;
@@ -89,7 +89,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemS
 	printf("Proceso recibido:\n");
 	print_process(*P);
 	// Calculo de orden requerida
-	unsigned int processOrder = ceil(log2(P->memoryRequired)-log2(config.minMemory));
+	unsigned int processOrder =  floor_log2(P->memoryRequired)+1-floor_log2(config.minMemory);
 
 	printf("El proceso de PID %d requiere %d bytes de memoria, orden requerido: %d\n", P->PID, P->memoryRequired, processOrder);
 
@@ -105,7 +105,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemS
 	processNode->element.process = P;
 	processNode->element.order = processOrder;
 	processNode->element.isUsed = 1;
-	status->avaliableMemory-=(config.totalMemory)/pow(2,T->element.order - processOrder);
+	status->avaliableMemory-=(config.totalMemory)/two_power(T->element.order - processOrder);
 
 	return processNode;
 }
@@ -184,7 +184,7 @@ BuddySystem free_buddy(Process* P, BuddySystem T, SystemConfig config, SystemSta
 		print_error(301, NULL, NULL);
 		return NULL;
 	}
-	status->avaliableMemory +=  (config.totalMemory)/pow(2,T->element.order - buddyNode->element.order);
+	status->avaliableMemory +=  (config.totalMemory)/two_power(T->element.order - buddyNode->element.order);
 	buddyNode->element.process = NULL;
 	buddyNode->element.isUsed = 0;
 	merge_buddy(buddyNode);

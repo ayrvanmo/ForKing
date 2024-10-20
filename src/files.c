@@ -22,13 +22,13 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 	if(!fscanf(inputInfo, "%u", &forkingConfig->totalMemory)){
 		printf("No se ha podido leer la memoria maxima\n");
 	}
-	forkingConfig->totalMemory = pow(2, floor(log2(forkingConfig->totalMemory)));
+	forkingConfig->totalMemory = two_power(floor_log2(forkingConfig->totalMemory));
 
 	// Memoria minima
 	if(!fscanf(inputInfo, "%u", &forkingConfig->minMemory)){
 		printf("No se ha podido leer la memoria minima\n");
 	}
-	forkingConfig->minMemory = pow(2, floor(log2(forkingConfig->minMemory)));
+	forkingConfig->minMemory = two_power(floor_log2(forkingConfig->minMemory));
 
 	// Nucleos del procesador
 	if(!fscanf(inputInfo, "%u", &forkingConfig->cpuCores)){
