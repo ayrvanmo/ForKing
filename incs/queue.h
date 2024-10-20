@@ -39,6 +39,8 @@ bool is_empty_queue(Queue Q);
 void make_empty_queue(Queue Q);
 void free_queue(Queue Q);
 void enqueue( Process* X, Queue Q );
+void decreasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Process));
+void increasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Process));
 void dequeue( Queue Q );
 void print_queue(Queue Q);
 Queue create_queue();

@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 	//bubble_sort(forkingConfig.processes, get_process_arrival_time);
 	merge_sort(forkingConfig.processes, get_process_arrival_time);
 	print_list(forkingConfig.processes);
-	sleep(10);
+	//sleep(10);
 	// Inicializacion status
 	SystemStatus forkingStatus = {0, 0, 0, 0, 0, forkingConfig.totalMemory, forkingConfig.processes->data.PID, forkingConfig.processes->data.PID, forkingConfig.timeQuantum};
 
