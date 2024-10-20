@@ -29,13 +29,13 @@ int main(int argc, char* argv[]) {
 
 	// Se comprueba si se ha pasado un archivo
 	if (argc < 2) {
-		printf("No se ha pasado un archivo\n");
+		print_error(100,NULL,NULL);
 		return 1;
 	}
 
 	// Se crea la lista de procesos y se inicializan las variables necesarias para su manejo
 	if(read_input_file(argv[1], &forkingConfig)){
-		printf("No se ha podido leer el archivo\n");
+		print_error(101, argv[1] , NULL); // No se ha podido leer el archivo
 		return 1;
 	}
 	// Se ordena el arrival_queue segun su arrival time
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
 		//print_buddy_system(forkingBuddySystem);
 		printf("\n\n\n\n");
 
-		sleep(1);
+		//sleep(1);
 		forkingStatus.ticks++;
 	}
 

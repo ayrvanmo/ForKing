@@ -5,7 +5,14 @@
 */
 #include "errors.h"
 
-void print_error(int num, char* obs) {
+/**
+ * @brief Funcion para imprimir un error
+ *
+ * @param num Codigo de error
+ * @param target Algun parametro que puede ser necesario para el error
+ * @param obs Algun texto que puede acompanhar el error
+*/
+void print_error(int num, char* target, char* obs) {
     if(num>=100 && num<200){
         printf(ANSI_COLOR_RED "Error %d: " ANSI_COLOR_RESET, num);
     }
@@ -18,17 +25,29 @@ void print_error(int num, char* obs) {
     }
     switch(num) {
         case 100:
-            printf("ERROR");
+            printf("No se recibio ningun archivo\n");
+            break;
+        case 101:
+            printf("No se pudo leer el archivo %s\n", target);
             break;
 
         case 200:
-            printf("ERROR");
+            printf("No hay memoria disponible\n");
+            exit(-1);
+            break;
+        case 201:
+            printf("No se entrego un archivo abierto\n");
             exit(-1);
             break;
         case 300:
-            printf("ERROR");
+            printf("Lista vacia\n");
             break;
-
+        case 301:
+            printf("Inconsistencia, Buddy encontrado tiene hijos\n");
+            break;
+        case 302:
+            printf("Cola vacia\n");
+            break;
         default:
             printf("Codigo de error desconocido\n");
     }

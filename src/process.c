@@ -32,7 +32,7 @@ void print_list(List L)
 		i++;
 	}
 	if(is_empty_list(L)){
-		printf("La lista esta vacia\n");
+		print_error(300, NULL, NULL);
 	}
 }
 
@@ -88,7 +88,7 @@ List make_empty_list(List L)
 	}
 	L = malloc(sizeof(ProcessNode));
 	if(L == NULL){
-		printf("ERROR FATAL, NO HAY MEMORIA");
+		print_error(200, NULL, NULL);
 	}
 	L->data.PID = 0;
 	L->next = NULL;
@@ -157,8 +157,8 @@ Position insert_element(Process X, List L, Position P)
 {
 	Position Tmpcell;
 	Tmpcell = malloc(sizeof(ProcessNode));
-	if(Tmpcell == NULL && X.PID == 0){
-		printf("ERROR FATAL, NO HAY MEMORIA O SE INTENTO INSERTAR UN PID 0");
+	if(Tmpcell == NULL){
+		print_error(200, NULL, NULL);
 	}
 	Tmpcell->data = X;
 	Tmpcell->next = P->next;
@@ -227,7 +227,7 @@ Process retrieve(Position P)
  */
 List bubble_sort(List L, unsigned int(*criterion)(Process)){
 	if(is_empty_list(L)){
-		printf("Lista vacia\n");
+		print_error(300, NULL, NULL);
 		return NULL;
 	}
 	unsigned int listSize = L->data.PID;
@@ -280,35 +280,14 @@ List midPoint(List L)
  */
 List merge(Position a, Position b, unsigned int(*criterion)(Process))
 {
-
-	// Implementacion recursiva, segun busque tira segmentation al manejar datos >= 1,000,000 fault por el desborde en pila del propio sistema
-	/*
-	Position result = NULL;
-
-	if(a == NULL){
-		return b;
-	}
-	else if(b == NULL){
-		return a;
-	}
-
-	if(criterion(a->data) <= criterion(b->data)){
-		result = a;
-		result->next = merge(a->next, b, criterion);
-	}
-	else{
-		result = b;
-		result->next = merge(a, b->next, criterion);
-	}
-
-	return result;
-	*/
-
 	// Implementacion iterativa
     Position tmpNode = (Position)malloc(sizeof(ProcessNode)); // Nodo temporal
+	if(tmpNode == NULL){
+		print_error(200, NULL, NULL);
+	}
     Position tail = tmpNode; // Cola de la lista fusionada
 
-    while (a != NULL && b != NULL) {
+    while(a!=NULL && b!=NULL) {
         if (criterion(a->data) <= criterion(b->data)) {
             tail->next = a;
             a = a->next;
@@ -319,7 +298,7 @@ List merge(Position a, Position b, unsigned int(*criterion)(Process))
         tail = tail->next;
     }
 
-    if (a != NULL){
+    if(a != NULL){
         tail->next = a;
 	}
     else{
@@ -329,7 +308,6 @@ List merge(Position a, Position b, unsigned int(*criterion)(Process))
     Position result = tmpNode->next;
     free(tmpNode);
     return result;
-
 }
 /**
  * @brief Ordena una lista de procesos segun un criterio
@@ -368,7 +346,7 @@ List load_process_list(FILE *file)
 {
 	// Comprobamos que el archivo sea abierto
 	if(file == NULL){
-		printf("ERROR FATAL, NO SE ENTREGO UN ARCHIVO ABIERTO\n");
+		print_error(202, NULL, NULL);
 		return NULL;
 	}
 

@@ -10,10 +10,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <math.h>
 #include <unistd.h>
-#include "process.h"
+#include "errors.h"
 #include "files.h"
+#include "process.h"
+#include "utilities.h"
 
 typedef struct _buddy Buddy;
 typedef struct _treeNode TreeNode;

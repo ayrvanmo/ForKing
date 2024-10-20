@@ -11,7 +11,8 @@
  * @param Q Cola entregada
  * @return si una cola es vacia o no
 */
-bool is_empty_queue(Queue Q){
+bool is_empty_queue(Queue Q)
+{
 	return Q->centinel->process->PID == 0;
 }
 
@@ -19,23 +20,24 @@ bool is_empty_queue(Queue Q){
   * @brief Función para crear una cola
   * @return Se retorna una nueva cola vacia.
   */
-Queue create_queue(){
+Queue create_queue()
+{
 	//pedir memoria
 	Queue Q=(Queue)malloc(sizeof(QueueRecord));
 	if(!Q){
-		printf("ERROR: No hay memoria disponible");
+		print_error(200, NULL, NULL);
 		exit(1);
 	}
 	//asignar valores iniciales
 	Q->centinel=malloc(sizeof(CircularNode));
 	if(Q->centinel==NULL){
-		printf("ERROR: No hay memoria disponible");
+		print_error(200, NULL, NULL);
 		exit(1);
 	}
 
 	Q->centinel->process=malloc(sizeof(Process));
 	if(Q->centinel==NULL){
-		printf("ERROR: No hay memoria disponible");
+		print_error(200, NULL, NULL);
 		exit(1);
 	}
 
@@ -49,7 +51,8 @@ Queue create_queue(){
  * @brief Función para eliminar los ELEMENTOS de una cola
  * @param Q Cola entregada
  */
-void make_empty_queue(Queue Q){
+void make_empty_queue(Queue Q)
+{
 	// caso la cola ya está vacia o es nula
 	if(!Q || is_empty_queue(Q)){
 		return;
@@ -74,7 +77,8 @@ void make_empty_queue(Queue Q){
  * @brief Funcion encargada de eliminar una cola
  * @param Q Cola a eliminar
  */
-void free_queue(Queue Q){
+void free_queue(Queue Q)
+{
 	if(Q){
 		make_empty_queue(Q);
 		free(Q);
@@ -87,7 +91,8 @@ void free_queue(Queue Q){
  * @param Q Cola a agregar el proceso
  * @note Agrega el proceso al final de la cola
  */
-void enqueue(Process* P, Queue Q){
+void enqueue(Process* P, Queue Q)
+{
 
 	CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
 	// error de memoria
@@ -222,24 +227,24 @@ void increasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Pr
  * @param Q Cola entregada
  * @return Proceso Devuelve el proceso en el frente de la cola
  */
-Process* front(Queue Q){
-
+Process* front(Queue Q)
+{
 	if(!is_empty_queue(Q)){
 		return Q->centinel->next->process;
 	}
-
-	printf("ERROR: la cola está vacía");
+	print_error(302, NULL, NULL);
 	exit(1);
 }
 
 /**
- * @brief Funcion para eliminar un proceso de la cola
- * @param Q Cola
+ * @brief Funcion para eliminar el frente de una cola
+ * @param Q Cola entregada
  */
-void dequeue (Queue Q){
+void dequeue (Queue Q)
+{
 
 	if(is_empty_queue(Q)){
-		printf("ERROR: la cola está vacía");
+		print_error(302, NULL, NULL);
 	}
 
 	else {
@@ -260,7 +265,8 @@ void dequeue (Queue Q){
  *
  * @param Q Cola Entregada
  */
-void print_queue(Queue Q){
+void print_queue(Queue Q)
+{
 
 	if(!is_empty_queue(Q)){
 
@@ -275,7 +281,7 @@ void print_queue(Queue Q){
 		}
 	}
 	else {
-		printf("cola vacia\n");
+		print_error(302, NULL, NULL);
 	}
 }
 
