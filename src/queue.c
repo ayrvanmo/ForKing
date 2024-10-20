@@ -129,7 +129,7 @@ void decreasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Pr
 	CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
 	// error de memoria
 	if(!newNode){
-		//print_error(200, NULL, NULL);
+		print_error(200, NULL, NULL);
 		exit(1);
 	}
 	newNode->process = P;
@@ -181,7 +181,7 @@ void increasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Pr
 	CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
 	// error de memoria
 	if(!newNode){
-		//print_error(200, NULL, NULL);
+		print_error(200, NULL, NULL);
 		exit(1);
 	}
 	newNode->process = P;

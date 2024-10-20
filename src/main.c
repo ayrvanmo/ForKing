@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 				forkingStatus.rrQueueNumber++;
 			}
 			else{
-				enqueue(front(waitingQueue), sjfQueue);
+				increasing_sorting_enqueue(front(waitingQueue), sjfQueue, get_process_burst_time);
 				forkingStatus.sjfQueueNumber++;
 			}
 			// Se elimina el proceso de la waiting queue
@@ -81,12 +81,12 @@ int main(int argc, char* argv[]) {
 			auxProcessPtr = front(arrivalQueue);
 			// Asignacion de "memoria" y paso a waiting_queue
 			if(!insert_buddy(auxProcessPtr, forkingBuddySystem, forkingConfig, &forkingStatus)){
-				enqueue(auxProcessPtr, waitingQueue);
+				increasing_sorting_enqueue(auxProcessPtr, waitingQueue, get_process_memory_required);
 				forkingStatus.waitingQueueNumber++;
 			}
 			// Asignacion de cola de procesamiento
 			else if(auxProcessPtr->burstTime < forkingConfig.timeQuantum){
-				enqueue(auxProcessPtr, sjfQueue);
+				increasing_sorting_enqueue(auxProcessPtr, sjfQueue, get_process_burst_time);
 				forkingStatus.sjfQueueNumber++;
 			}
 			else{
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
 				//Si el procceso no ha terminado se ingresa nuevamente a la cola correspondiente
 				if(auxProcessPtr->burstTime != 0){
 					if(auxProcessPtr->burstTime < forkingConfig.timeQuantum){
-						enqueue(auxProcessPtr, sjfQueue);
+						increasing_sorting_enqueue(auxProcessPtr, sjfQueue, get_process_burst_time);
 						forkingStatus.sjfQueueNumber++;
 						forkingStatus.rrQueueNumber--;
 					}
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
 		//print_buddy_system(forkingBuddySystem);
 		printf("\n\n\n\n");
 
-		//sleep(1);
+		sleep(1);
 		forkingStatus.ticks++;
 	}
 

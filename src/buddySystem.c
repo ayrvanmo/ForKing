@@ -89,7 +89,11 @@ BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemS
 	printf("Proceso recibido:\n");
 	print_process(*P);
 	// Calculo de orden requerida
-	unsigned int processOrder =  floor_log2(P->memoryRequired)+1-floor_log2(config.minMemory);
+	unsigned int processOrder =  floor_log2(P->memoryRequired)-floor_log2(config.minMemory);
+	// En caso de que el proceso requiera justo la memoria de su orden
+	if(P->memoryRequired > (unsigned int)two_power(processOrder+floor_log2(config.minMemory))){
+		processOrder++;
+	}
 
 	printf("El proceso de PID %d requiere %d bytes de memoria, orden requerido: %d\n", P->PID, P->memoryRequired, processOrder);
 
