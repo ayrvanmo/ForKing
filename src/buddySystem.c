@@ -24,7 +24,7 @@ BuddySystem empty_buddy_system(BuddySystem T, SystemConfig config)
 	T->element.isUsed = 0;
 	T->element.process = NULL;
 	T->parent = T->left = T->right = NULL;
-	print_buddy_system(T);
+
 	return T;
 }
 
@@ -86,8 +86,9 @@ TreePosition find_buddy(Process* P, BuddySystem T)
  */
 BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemStatus* status)
 {
-	printf("Proceso recibido:\n");
-	print_process(*P);
+	//printf("Proceso recibido:\n");
+	//print_process(*P);
+
 	// Calculo de orden requerida
 	unsigned int processOrder =  floor_log2(P->memoryRequired)-floor_log2(config.minMemory);
 	// En caso de que el proceso requiera justo la memoria de su orden
@@ -95,7 +96,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemS
 		processOrder++;
 	}
 
-	printf("El proceso de PID %d requiere %d bytes de memoria, orden requerido: %d\n", P->PID, P->memoryRequired, processOrder);
+	// printf("El proceso de PID %d requiere %d bytes de memoria, orden requerido: %d\n", P->PID, P->memoryRequired, processOrder);
 
 	if(T->element.isUsed){
 		printf("Memoria Llena\n");
@@ -103,7 +104,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemS
 	}
 	TreePosition processNode = find_space(T, processOrder);
 	if(processNode == NULL){
-		printf("No se encontro espacio para el proceso %u\n", P->PID);
+		//printf("No se encontro espacio para el proceso %u\n", P->PID);
 		return NULL;
 	}
 	processNode->element.process = P;

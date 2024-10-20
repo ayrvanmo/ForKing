@@ -6,11 +6,13 @@
 #ifndef FILES_H
 #define FILES_H
 
+#include <getopt.h> // Para ingreso de parametros por terminal
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "errors.h"
 #include "process.h"
+#include "errors.h"
+#include "queue.h"
 #include "utilities.h"
 
 /*! \struct System
@@ -22,6 +24,7 @@ typedef struct SystemConfig
 	unsigned int minMemory;/*!< Memoria minima a utilizar */
 	unsigned int cpuCores;/*!< Cantidad de "nucleos" del "procesador" */
 	unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
+	unsigned int totalProcesses;/*!< Cantidad de procesos que se van a simular */
 	List processes;
 } SystemConfig;
 
@@ -40,5 +43,8 @@ typedef struct SystemStatus
 } SystemStatus;
 
 int read_input_file(char* file_name, SystemConfig* forkingConfig);
+void print_program(SystemConfig config, SystemStatus status, Queue waitingQueue, Queue arrivalQueue, Queue rrQueue, Queue sjfQueue);
+
+char* get_terminal_parameters(int argc, char* argv[]);
 
 #endif

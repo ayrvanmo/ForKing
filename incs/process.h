@@ -13,7 +13,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include "errors.h"
 
 /*! \struct _process
  * @brief Estructura de datos que contiene la informacion de un proceso
@@ -31,10 +30,11 @@ typedef ProcessNode *ptrToNode;
 typedef ptrToNode Position;
 typedef ptrToNode List;
 
+#include "errors.h"
+
 /*! \struct _processNode
  * @brief Estructura de datos representa el Nodo de un proceso en una lista de procesos
 */
-
 struct _processNode {
 	Process data; /*!< Parámetros del proceso */
 	Position next; /*!< Puntero al siguiente nodo en la lista enlazada */

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <getopt.h>
 #include "queue.h"
 #include "process.h"
 #include "buddySystem.h"
@@ -17,6 +18,14 @@
 
 int main(int argc, char* argv[]) {
 
+	char* file_name;
+	if(!(file_name = get_terminal_parameters(argc, argv))){
+		print_error(100, NULL, NULL);
+		return 1;
+	}
+
+	/*Comienzo de ejecución del programa*/
+
 	SystemConfig forkingConfig;
 	// Creacion de colas
 	Queue arrivalQueue = create_queue(); // Es una lista pero esta utilizada como uan cola por comodidad
@@ -26,33 +35,41 @@ int main(int argc, char* argv[]) {
 	BuddySystem forkingBuddySystem;
 	Process* auxProcessPtr;
 	Process auxProcess;
-
-	// Se comprueba si se ha pasado un archivo
-	if (argc < 2) {
-		print_error(100,NULL,NULL);
-		return 1;
-	}
+	system("clear");
+	printf(ANSI_COLOR_RED"\t\tIniciando Forking...\n"ANSI_COLOR_RESET);
 
 	// Se crea la lista de procesos y se inicializan las variables necesarias para su manejo
-	if(read_input_file(argv[1], &forkingConfig)){
-		print_error(101, argv[1] , NULL); // No se ha podido leer el archivo
+	if(read_input_file(file_name, &forkingConfig)){
+		print_error(101, file_name , NULL); // No se ha podido leer el archivo
 		return 1;
 	}
+	system("clear");
+	printf(ANSI_COLOR_BLUE"\t\tInformacion recopilada:\n\n"ANSI_COLOR_RESET);
+	printf("Total memoria: %u\n", forkingConfig.totalMemory);
+	printf("Minima memoria: %u\n", forkingConfig.minMemory);
+	printf("Nucleos del procesador: %u\n", forkingConfig.cpuCores);
+	printf("Quantum para Round Robin: %u\n\n", forkingConfig.timeQuantum);
+	printf(ANSI_COLOR_RED"\t\tOrdenando lista de procesos...\n"ANSI_COLOR_RESET);
+	sleep(1);
+
 	// Se ordena el arrival_queue segun su arrival time
-	//bubble_sort(forkingConfig.processes, get_process_arrival_time);
 	merge_sort(forkingConfig.processes, get_process_arrival_time);
+	printf(ANSI_COLOR_BLUE"\t\tLista de procesos...\n"ANSI_COLOR_RESET);
 	print_list(forkingConfig.processes);
-	//sleep(10);
+	forkingConfig.totalProcesses = forkingConfig.processes->data.PID;
 	// Inicializacion status
 	SystemStatus forkingStatus = {0, 0, 0, 0, 0, forkingConfig.totalMemory, forkingConfig.processes->data.PID, forkingConfig.processes->data.PID, forkingConfig.timeQuantum};
 
 	// Creamos el Buddy system
 	forkingBuddySystem = empty_buddy_system(NULL, forkingConfig);
 
+	printf(ANSI_COLOR_RED"\n\t\tIniciando simulacion...\n"ANSI_COLOR_RESET);
+	//sleep(2);
 	// inicio de la simulacion
+	printf("Informacion del buddy system:\n");
+	print_buddy_system(forkingBuddySystem);
 	while(forkingStatus.remainingProceses > 0)
 	{
-		printf("Ticks: %u\n", forkingStatus.ticks);
 		// Intneta llevar los procesos en espera a su respectiva cola de procesamiento
 		while(!is_empty_queue(waitingQueue) && (forkingStatus.avaliableMemory >= front(waitingQueue)->memoryRequired) && insert_buddy(front(waitingQueue), forkingBuddySystem, forkingConfig, &forkingStatus)){
 			// Se maneja el proceso para ingresarlo en la rr_queue o sjf
@@ -76,6 +93,10 @@ int main(int argc, char* argv[]) {
 			enqueue(auxProcessPtr, arrivalQueue);
 			forkingStatus.arrivalQueueNumber++;
 		}
+
+		// Imprimir Informacion del tick
+		print_program(forkingConfig, forkingStatus, waitingQueue, arrivalQueue, rrQueue, sjfQueue);
+
 		// Manejar arrival_queue
 		while(!is_empty_queue(arrivalQueue)){
 			auxProcessPtr = front(arrivalQueue);
@@ -99,8 +120,8 @@ int main(int argc, char* argv[]) {
 		}
 		// Procesamiento de los procesos en las colas de listo RR y SJF
 		if(!is_empty_queue(sjfQueue)){ //Sjf
-			printf("Burst del SJF actual es: %u\n",front(sjfQueue)->burstTime);
 			front(sjfQueue)->burstTime--; // Trabajo en el proceso
+
 			// Termino y liberacion de la memoria de un procso
 			if(front(sjfQueue)->burstTime == 0){
 				free_buddy(front(sjfQueue), forkingBuddySystem, forkingConfig, &forkingStatus);
@@ -110,12 +131,11 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		else if(!is_empty_queue(rrQueue)){ // RoundRobin
-			printf("ACTUAL QUANTUM TIME: %u\n", forkingStatus.remainingQuantumTime);
+			//printf("ACTUAL QUANTUM TIME: %u\n", forkingStatus.remainingQuantumTime);
 			forkingStatus.remainingQuantumTime--;
 			front(rrQueue)->burstTime--; // Trabajo en el proceso
 			// Termino y liberacion de memoria de un proceso
 			if(front(rrQueue)->burstTime == 0){
-					printf("Burst 0\n");
 					free_buddy(front(rrQueue), forkingBuddySystem, forkingConfig, &forkingStatus);
 					forkingStatus.remainingProceses--;
 					forkingStatus.rrQueueNumber--;
@@ -142,25 +162,12 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
-
-		// Imprimir TODOOOO
-		// printf("Espacio disponible %u, Cola Arrival %u, Cola Waiting %u, Cola rr %u Colaa SJF %u\n",forkingStatus.avaliableMemory, forkingStatus.arrivalQueueNumber, forkingStatus.waitingQueueNumber, forkingStatus.rrQueueNumber, forkingStatus.sjfQueueNumber);
-		printf("------------------ ArrivalQueue ------------------\n");
-		print_queue(arrivalQueue);
-		printf("------------------ WaitingQueue ------------------\n");
-		print_queue(waitingQueue);
-		printf("------------------ RRQueue ------------------\n");
-		print_queue(rrQueue);
-		printf("------------------ SJFQueue ------------------\n");
-		print_queue(sjfQueue);
-		//printf("------------------ BuddySystem ------------------\n");
-		//print_buddy_system(forkingBuddySystem);
-		printf("\n\n\n\n");
-
-		sleep(1);
 		forkingStatus.ticks++;
+		sleep(1);
 	}
 
+	// Imprimir Informacion final
+	print_program(forkingConfig, forkingStatus, waitingQueue, arrivalQueue, rrQueue, sjfQueue);
 	printf("Proceso terminado luego de %u ticks\n\n", forkingStatus.ticks-1);
 
 	return 0;

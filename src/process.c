@@ -22,7 +22,7 @@ int is_empty_list(List L)
 
 void print_list(List L)
 {
-	printf("La lista de procesos es: \n");
+	//printf("La lista de procesos es: \n");
 	Position P;
 	P = L->next;
 	int i = 1;
@@ -89,6 +89,7 @@ List make_empty_list(List L)
 	L = malloc(sizeof(ProcessNode));
 	if(L == NULL){
 		print_error(200, NULL, NULL);
+		return NULL;
 	}
 	L->data.PID = 0;
 	L->next = NULL;
@@ -284,6 +285,7 @@ List merge(Position a, Position b, unsigned int(*criterion)(Process))
     Position tmpNode = (Position)malloc(sizeof(ProcessNode)); // Nodo temporal
 	if(tmpNode == NULL){
 		print_error(200, NULL, NULL);
+		return NULL;
 	}
     Position tail = tmpNode; // Cola de la lista fusionada
 
