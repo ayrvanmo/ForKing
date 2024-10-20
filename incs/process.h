@@ -13,6 +13,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include "errors.h"
 
 /*! \struct _process
  * @brief Estructura de datos que contiene la informacion de un proceso

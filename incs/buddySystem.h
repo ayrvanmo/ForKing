@@ -12,8 +12,9 @@
 #include <stdbool.h>
 #include <math.h>
 #include <unistd.h>
-#include "process.h"
+#include "errors.h"
 #include "files.h"
+#include "process.h"
 
 typedef struct _buddy Buddy;
 typedef struct _treeNode TreeNode;

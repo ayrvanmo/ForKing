@@ -40,7 +40,7 @@ void print_error(int num, char* target, char* obs) {
             exit(-1);
             break;
         case 300:
-            printf("Lista vacia");
+            printf("Lista vacia\n");
             break;
         case 301:
             printf("Inconsistencia, Buddy encontrado tiene hijos\n");

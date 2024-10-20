@@ -15,7 +15,7 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 
 	inputInfo = fopen(file_name, "r");
 	if (inputInfo == NULL) {
-		print(101, NULL, NULL);
+		print_error(101, NULL, NULL);
 		return 1;
 	}
 	// Memoria maxima
