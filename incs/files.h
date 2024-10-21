@@ -45,6 +45,6 @@ typedef struct SystemStatus
 int read_input_file(char* file_name, SystemConfig* forkingConfig);
 void print_program(SystemConfig config, SystemStatus status, Queue waitingQueue, Queue arrivalQueue, Queue rrQueue, Queue sjfQueue);
 
-char* get_terminal_parameters(int argc, char* argv[]);
+char* get_terminal_parameters(int argc, char* argv[], bool *clean);
 
 #endif

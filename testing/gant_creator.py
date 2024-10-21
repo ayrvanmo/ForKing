@@ -63,5 +63,6 @@ ax.grid(axis='x', linestyle='--', alpha=0.7)  # Líneas verticales de referencia
 # Dejar un margen adecuado entre las etiquetas del eje Y
 ax.set_ylim(min(unique_pids) - 0.5, max(unique_pids) + 0.5)
 
-plt.tight_layout()  # Ajustar automáticamente el layout para evitar recortes
-plt.show()
+#plt.tight_layout()  # Ajustar automáticamente el layout para evitar recortes
+#plt.show()
+
