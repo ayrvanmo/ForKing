@@ -39,6 +39,10 @@ void print_error(int num, char* target, char* obs) {
             printf("No se entrego un archivo abierto\n");
             exit(-1);
             break;
+        case 202:
+            printf("No se pudo acceder al sistema\n");
+            exit(-1);
+            break;
         case 300:
             printf("Lista vacia\n");
             break;

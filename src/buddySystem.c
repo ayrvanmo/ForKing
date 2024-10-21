@@ -99,7 +99,7 @@ BuddySystem insert_buddy(Process* P, BuddySystem T, SystemConfig config, SystemS
 	// printf("El proceso de PID %d requiere %d bytes de memoria, orden requerido: %d\n", P->PID, P->memoryRequired, processOrder);
 
 	if(T->element.isUsed){
-		printf("Memoria Llena\n");
+		// printf("Memoria Llena\n");
 		return NULL;
 	}
 	TreePosition processNode = find_space(T, processOrder);

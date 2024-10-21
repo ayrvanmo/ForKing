@@ -35,7 +35,9 @@ int main(int argc, char* argv[]) {
 	BuddySystem forkingBuddySystem;
 	Process* auxProcessPtr;
 	Process auxProcess;
-	system("clear");
+	if(system("clear")){
+		print_error(202,NULL,NULL);
+	}
 	printf(ANSI_COLOR_RED"\t\tIniciando Forking...\n"ANSI_COLOR_RESET);
 
 	// Se crea la lista de procesos y se inicializan las variables necesarias para su manejo
@@ -43,7 +45,9 @@ int main(int argc, char* argv[]) {
 		print_error(101, file_name , NULL); // No se ha podido leer el archivo
 		return 1;
 	}
-	system("clear");
+	if(system("clear")){
+		print_error(202,NULL,NULL);
+	}
 	printf(ANSI_COLOR_BLUE"\t\tInformacion recopilada:\n\n"ANSI_COLOR_RESET);
 	printf("Total memoria: %u\n", forkingConfig.totalMemory);
 	printf("Minima memoria: %u\n", forkingConfig.minMemory);
@@ -64,7 +68,7 @@ int main(int argc, char* argv[]) {
 	forkingBuddySystem = empty_buddy_system(NULL, forkingConfig);
 
 	printf(ANSI_COLOR_RED"\n\t\tIniciando simulacion...\n"ANSI_COLOR_RESET);
-	//sleep(2);
+	sleep(2);
 	// inicio de la simulacion
 	printf("Informacion del buddy system:\n");
 	print_buddy_system(forkingBuddySystem);

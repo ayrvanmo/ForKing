@@ -22,7 +22,13 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 	if(!fscanf(inputInfo, "%u", &forkingConfig->totalMemory)){
 		printf("No se ha podido leer la memoria maxima\n");
 	}
-	forkingConfig->totalMemory = two_power(floor_log2(forkingConfig->totalMemory));
+
+	if(forkingConfig->totalMemory == (unsigned int) two_power(floor_log2(forkingConfig->totalMemory))){
+		forkingConfig->totalMemory = two_power(floor_log2(forkingConfig->totalMemory));
+	}
+	else{
+		forkingConfig->totalMemory = two_power(floor_log2(forkingConfig->totalMemory)+1);
+	}
 
 	// Memoria minima
 	if(!fscanf(inputInfo, "%u", &forkingConfig->minMemory)){
@@ -82,7 +88,7 @@ void print_program(SystemConfig config, SystemStatus status, Queue waitingQueue,
 	int percentage = (status.avaliableMemory*100)/(float)config.totalMemory;
 
 	// Imprimir Informacion del tick
-	system("clear");
+	printf(CLEAR_SCREEN);
 	printf(ANSI_COLOR_YELLOW"Ticks: %u\n"ANSI_COLOR_RESET, status.ticks);
 	printf("Memoria disponible: %u%%   (%u/%u)\n", percentage, status.avaliableMemory, config.totalMemory);
 	printf("Procesos restantes: %u/%u\n", status.remainingProceses, config.totalProcesses);

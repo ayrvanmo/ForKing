@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 // Colores para texto
+#define CLEAR_SCREEN "\033[H\033[J"
 #define ANSI_COLOR_RED      "\x1b[31m"
 #define ANSI_COLOR_GREEN    "\x1b[32m"
 #define ANSI_COLOR_YELLOW   "\x1b[33m"
