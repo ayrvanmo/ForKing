@@ -35,6 +35,14 @@ int main(int argc, char* argv[]) {
 	BuddySystem forkingBuddySystem;
 	Process* auxProcessPtr;
 	Process auxProcess;
+	FILE* gant;
+
+	if((gant = fopen("gant.csv", "w")) == NULL){
+		print_error(101, "gant.csv", NULL);
+		exit(-1);
+	}
+	fprintf(gant, "Tick,Process\n");
+
 	if(system("clear")){
 		print_error(202,NULL,NULL);
 	}
@@ -139,6 +147,7 @@ int main(int argc, char* argv[]) {
 		// Procesamiento de los procesos en las colas de listo RR y SJF
 		if(!is_empty_queue(sjfQueue)){ //Sjf
 			front(sjfQueue)->burstTime--; // Trabajo en el proceso
+			fprintf(gant, "%d,%d\n",forkingStatus.ticks, front(sjfQueue)->PID);
 
 			// Termino y liberacion de la memoria de un procso
 			if(front(sjfQueue)->burstTime == 0){
@@ -152,6 +161,7 @@ int main(int argc, char* argv[]) {
 			//printf("ACTUAL QUANTUM TIME: %u\n", forkingStatus.remainingQuantumTime);
 			forkingStatus.remainingQuantumTime--;
 			front(rrQueue)->burstTime--; // Trabajo en el proceso
+			fprintf(gant, "%d,%d\n",forkingStatus.ticks, front(rrQueue)->PID);
 			// Termino y liberacion de memoria de un proceso
 			if(front(rrQueue)->burstTime == 0){
 					free_buddy(front(rrQueue), forkingBuddySystem, forkingConfig, &forkingStatus);
@@ -187,6 +197,9 @@ int main(int argc, char* argv[]) {
 	// Imprimir Informacion final
 	print_program(forkingConfig, forkingStatus, waitingQueue, arrivalQueue, rrQueue, sjfQueue);
 	printf("Proceso terminado luego de %u ticks\n\n", forkingStatus.ticks-1);
+	fclose(gant);
+	printf(ANSI_COLOR_BLUE"\t\tImprimiendo carta Gantt..." ANSI_COLOR_RESET"\n");
+	execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
 
 	return 0;
 }
