@@ -11,7 +11,7 @@
 
 int main(int argc, char* argv[]){
 
-    int values[4];
+    int values[3];
 
     srand(time(NULL));
 
@@ -38,11 +38,10 @@ int main(int argc, char* argv[]){
 
     // Imprimir el archivo de entrada
     for(int i = 0; i < numProcesses; i++){
-        values[0] = i;
-        values[1] = rand() % 15;
-        values[2] = (rand() % 4)+1;
-        values[3] = (rand() % (5000 -2 +1)) + 2;
-        fprintf(outputInfo, "%u %u %u %u\n", values[0], values[1], values[2], values[3]);
+        values[0] = rand() % 15;
+        values[1] = (rand() % 4)+1;
+        values[2] = (rand() % (5000 -2 +1)) + 2;
+        fprintf(outputInfo, "%u %u %u\n", values[0], values[1], values[2]);
     }
 
     return 0;

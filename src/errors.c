@@ -30,7 +30,6 @@ void print_error(int num, char* target, char* obs) {
         case 101:
             printf("No se pudo leer el archivo %s\n", target);
             break;
-
         case 200:
             printf("No hay memoria disponible\n");
             exit(-1);
@@ -43,6 +42,10 @@ void print_error(int num, char* target, char* obs) {
             printf("No se pudo acceder al sistema\n");
             exit(-1);
             break;
+        case 203:
+            printf("No se ingresaron procesos\n");
+            exit(-1);
+            break;
         case 300:
             printf("Lista vacia\n");
             break;
@@ -51,6 +54,9 @@ void print_error(int num, char* target, char* obs) {
             break;
         case 302:
             printf("Cola vacia\n");
+            break;
+        case 303:
+            printf("El siguiente proceso no es valido; sera eliminado\n");
             break;
         default:
             printf("Codigo de error desconocido\n");

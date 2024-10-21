@@ -61,10 +61,10 @@ List bubble_sort(List L, unsigned int(*criterion)(Process));
 List midPoint(List L);
 List merge(Position a, Position b, unsigned int(*criterion)(Process));
 List merge_sort(List L, unsigned int(*criterion)(Process));
-List load_process_list(FILE *file);
+List load_process_list(FILE *file, unsigned int maxMemory, unsigned int minMemory);
 unsigned int get_process_pid(Process P);
 unsigned int get_process_arrival_time(Process P);
 unsigned int get_process_burst_time(Process P);
 unsigned int get_process_memory_required(Process P);
-
+bool validate_process(Process* P, unsigned int maxMemory, unsigned int minMemory);
 #endif

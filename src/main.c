@@ -70,11 +70,10 @@ int main(int argc, char* argv[]) {
 	printf(ANSI_COLOR_RED"\n\t\tIniciando simulacion...\n"ANSI_COLOR_RESET);
 	sleep(2);
 	// inicio de la simulacion
-	printf("Informacion del buddy system:\n");
 	print_buddy_system(forkingBuddySystem);
 	while(forkingStatus.remainingProceses > 0)
 	{
-		// Intneta llevar los procesos en espera a su respectiva cola de procesamiento
+		// Intenta llevar los procesos en espera a su respectiva cola de procesamiento
 		while(!is_empty_queue(waitingQueue) && (forkingStatus.avaliableMemory >= front(waitingQueue)->memoryRequired) && insert_buddy(front(waitingQueue), forkingBuddySystem, forkingConfig, &forkingStatus)){
 			// Se maneja el proceso para ingresarlo en la rr_queue o sjf
 			if(front(waitingQueue)->burstTime > forkingConfig.timeQuantum){
@@ -90,7 +89,18 @@ int main(int argc, char* argv[]) {
 			forkingStatus.waitingQueueNumber--;
 		}
 		// Llevar los procesos que corresponda al ArrivalQueue
+		unsigned int auxPID = first(forkingConfig.processes)->data.PID;
+		bool workedAuxPID = 0;
 		while(first(forkingConfig.processes) && (first(forkingConfig.processes)->data.arrivalTime == forkingStatus.ticks)){ // Funciona solo si la lista de procesos esta ordenada
+
+			// Para evitar caso en que entran solo procesos con el mismo arrival
+			if(workedAuxPID && first(forkingConfig.processes)->data.PID == auxPID){
+				break;
+			}
+			else{
+				workedAuxPID = 1;
+			}
+
 			auxProcess = first(forkingConfig.processes)->data;
 			delete_element(first(forkingConfig.processes)->data, forkingConfig.processes);
 			auxProcessPtr = &insert_element_end(auxProcess, forkingConfig.processes)->data;
@@ -104,8 +114,12 @@ int main(int argc, char* argv[]) {
 		// Manejar arrival_queue
 		while(!is_empty_queue(arrivalQueue)){
 			auxProcessPtr = front(arrivalQueue);
-			// Asignacion de "memoria" y paso a waiting_queue
-			if(!insert_buddy(auxProcessPtr, forkingBuddySystem, forkingConfig, &forkingStatus)){
+			if(auxProcessPtr->burstTime == 0){
+				print_error(305, NULL, NULL);
+				print_process(*auxProcessPtr);
+				delete_element(*auxProcessPtr, forkingConfig.processes);
+			} // Asignacion de "memoria" y paso a waiting_queue
+			else if(!insert_buddy(auxProcessPtr, forkingBuddySystem, forkingConfig, &forkingStatus)){
 				increasing_sorting_enqueue(auxProcessPtr, waitingQueue, get_process_memory_required);
 				forkingStatus.waitingQueueNumber++;
 			}

@@ -11,6 +11,7 @@ Dentro del archivo [errors.c](src/errors.c) se encuentra la función `print_erro
 | 200 | No hay memoria disponible |
 | 201 | No se entrego un archivo abierto |
 | 202 | No se pudo acceder al sistema |
+| 203 | No se ingresaron procesos |
 | 300 | Lista vacía |
 | 301 | Inconsistencia, Buddy encontrado tiene hijos |
 | 302 | Cola Vacia |

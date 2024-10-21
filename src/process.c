@@ -344,8 +344,9 @@ List merge_sort(List L, unsigned int(*criterion)(Process))
  * @return List Retorna la lista de procesos
  * @warning El archivo debe estar abierto
  */
-List load_process_list(FILE *file)
+List load_process_list(FILE *file, unsigned int maxMemory, unsigned int minMemory)
 {
+	unsigned int pidCount = 0;
 	// Comprobamos que el archivo sea abierto
 	if(file == NULL){
 		print_error(202, NULL, NULL);
@@ -354,11 +355,23 @@ List load_process_list(FILE *file)
 
 	List L = make_empty_list(NULL);
 	Process P;
+
 	while(!feof(file)){
-		if(fscanf(file, "%u %u %u %u", &P.PID, &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 4){
-			// printf("Proceso leido: PID: %u, Arrival Time: %u, Burst Time: %u, Memory Required: %u\n",P.PID, P.arrivalTime, P.burstTime, P.memoryRequired);
-			insert_element(P, L, header(L));
+		if(fscanf(file, "%u %u %u", &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 3){
+			P.PID = pidCount;
+			if(validate_process(&P, maxMemory, minMemory)){
+				insert_element(P, L, header(L));
+			}
+			else{
+				print_error(303, NULL, NULL);
+				print_process(P);
+			}
+			pidCount++;
 		}
+	}
+
+	if(is_empty_list(L)){
+		print_error(203,NULL,NULL);
 	}
 
 	// No se hace fclose() dentro de esta funcion.
@@ -408,4 +421,18 @@ void swap_proceses(Position a, Position b){
 	Process tmp = a->data;
 	a->data = b->data;
 	b->data = tmp;
+}
+
+/**
+ * @brief Valida si un proceso es apto para entrar en el programa
+ *
+ * @param P Puntero a proceso a validar
+ * @param config Configuracion del sistema
+ * @return true en caso que el proceso sea apto
+ * @return false en caso que el proceso no cumpla alguna condicion
+*/
+bool validate_process(Process* P, unsigned int maxMemory, unsigned int minMemory){
+	return 	!((P->memoryRequired > maxMemory) ||
+		   	(P->memoryRequired < minMemory) ||
+			(P->burstTime == 0));
 }

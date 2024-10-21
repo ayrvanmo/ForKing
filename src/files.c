@@ -46,13 +46,18 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 		printf("No se ha podido leer el quantum para Round Robin\n");
 	}
 
-	forkingConfig->processes = load_process_list(inputInfo);
+	forkingConfig->processes = load_process_list(inputInfo, forkingConfig->totalMemory, forkingConfig->minMemory);
 
 	fclose(inputInfo);
 
 	return 0;
 }
-
+/**
+ * @brief Recibe parametros por terminal y los manejas segun corresponda
+ * @param argc Cantidad de parametros recibidos
+ * @param argv Parametros recibidos
+ * @return char* Nombre del archivo a leer
+ */
 char* get_terminal_parameters(int argc, char* argv[]){
 
 	int opt; // Variable para el manejo de opciones
@@ -82,7 +87,15 @@ char* get_terminal_parameters(int argc, char* argv[]){
 		return NULL;
 	}
 }
-
+/**
+ * @brief Funcion que imprime por pantalla el funcionamiento del programa
+ * @param config Parametros del "sistema"
+ * @param status Estado del "sistema"
+ * @param waitingQueue Cola de espera de procesos
+ * @param arrivalQueue Cola de llegada de procesos
+ * @param rrQueue Cola de Round Robin
+ * @param sjfQueue Cola de Shortest Job First
+ */
 void print_program(SystemConfig config, SystemStatus status, Queue waitingQueue, Queue arrivalQueue, Queue rrQueue, Queue sjfQueue){
 
 	int percentage = (status.avaliableMemory*100)/(float)config.totalMemory;
