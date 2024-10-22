@@ -198,6 +198,11 @@ int main(int argc, char* argv[]) {
 	print_program(forkingConfig, forkingStatus, waitingQueue, arrivalQueue, rrQueue, sjfQueue);
 	printf("Proceso terminado luego de %u ticks\n\n", forkingStatus.ticks-1);
 	fclose(gant);
+
+	if(forkingStatus.totalProceses > 25){
+		printf(ANSI_COLOR_RED"Demasiados procesos para imprimir carta Gantt\n\n"ANSI_COLOR_RESET);
+		return 1;
+	}
 	printf(ANSI_COLOR_BLUE"\t\tImprimiendo carta Gantt..." ANSI_COLOR_RESET"\n");
 	execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
 

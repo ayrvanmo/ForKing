@@ -15,7 +15,7 @@ LDFLAGS= -Wall -lm
 
 all: $(OBJ_FILES)
 	$(CC) $(CFLAGS) -o build/$(EXEC) $(OBJ_FILES) $(INCLUDE) $(LIBS)
-
+	$(CC) $(CFLAGS) -o build/generator.out testing/generator.c
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^ $(INCLUDE)
 

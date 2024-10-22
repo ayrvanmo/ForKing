@@ -46,6 +46,10 @@ void print_error(int num, char* target, char* obs) {
             printf("No se ingresaron procesos\n");
             exit(-1);
             break;
+        case 204:
+            printf("Cantidad invalida, la cantidad ingresada de be ser mayor a 0\n");
+            exit(-1);
+            break;
         case 300:
             printf("Lista vacia\n");
             break;
