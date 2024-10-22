@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
     srand(time(NULL));
     int numProcesses = atoi(argv[1]);
 
-    if (argc < 2 || numProcesses <= 0) {
+    if (argc < 2 || numProcesses < 1) {
         printf(ANSI_COLOR_RED "Fatal Error 204:" ANSI_COLOR_RESET);
         printf("Cantidad invalida, la cantidad ingresada de be ser mayor a 0\n");
         return 1;
