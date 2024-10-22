@@ -52,41 +52,64 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 
 	return 0;
 }
+
 /**
  * @brief Recibe parametros por terminal y los manejas segun corresponda
  * @param argc Cantidad de parametros recibidos
  * @param argv Parametros recibidos
  * @return char* Nombre del archivo a leer
  */
-char* get_terminal_parameters(int argc, char* argv[]){
+char* get_terminal_parameters(int argc, char* argv[], bool *clean){
 
 	int opt; // Variable para el manejo de opciones
+	int opt_index = 0;
 
-	// Si se pasa una opcion, se debe analizarla
-	if((opt = getopt(argc, argv, ":hf:")) != -1){
+	char* filename = NULL;
+    *clean = false;
+
+	// estructura para las opciones
+	static struct option long_options[] = {
+        {"help", no_argument, 0, 'h'},
+		{"clean", no_argument, 0, 'c'},
+        {"file", required_argument, 0, 'f'},
+        {0, 0, 0, 0}
+    };
+
+
+	while((opt = getopt_long(argc, argv, ":hcf:", long_options, &opt_index)) != -1){
+
 		switch(opt){
 			case 'h':
-				printf("forking -f <archivo>      Ejecuta el programa\nforking -h                Muestra esta ayuda\n");
+				printf("forking -f <archivo>      Ejecuta el programa\nforking -f <archivo> -c	  Ejecutar sin imprimir la simulacion\n");
 				return NULL;
 			case 'f':
-				/* verificar si se paso un archivo */
-				// printf("Archivo: %s\n", optarg);
-				return optarg;
+                filename = optarg;
+                break;
+            case 'c':
+                *clean = true;
+                break;
 			case ':':
-				printf("Debe especificar un archivo\n");
 				print_error(100, NULL , NULL);
-				return NULL;
+				break;
 			default:
 				printf("Uso: 'forking -f <archivo>'\n'forking -h' para mostrar ayuda\n");
-				return NULL;
+				break;
 		}
 	}
-	/* Si no se pasa ninguna opcion, se debe mostrar la ayuda */
-	else {
-		printf("Uso: 'forking -f <archivo>'\n'forking -h' para mostrar ayuda\n");
-		return NULL;
-	}
+	
+    if(filename == NULL){
+        if(*clean){
+            printf("'clean' solo puede utilizarse al ejecutar un archivo.\n");
+        }
+		else{
+            printf("Uso: 'forking -f <archivo>'\n'forking -h' para mostrar ayuda\n");
+        }
+        return NULL;
+    }
+
+    return filename;
 }
+
 /**
  * @brief Funcion que imprime por pantalla el funcionamiento del programa
  * @param config Parametros del "sistema"

@@ -14,21 +14,19 @@
 #include "files.h"
 #include "errors.h"
 
-/* Se usa una funcion llamada forkingConfig declarada en el archivo files.h */
-
 int main(int argc, char* argv[]) {
 
-	char* file_name;
-	if(!(file_name = get_terminal_parameters(argc, argv))){
-		print_error(100, NULL, NULL);
+	char* file_name; /*\var file_name Nombre del archivo de configuracion*/
+	bool clean = false; /*\var clean Indica si se debe ejecutar el programa sin imprimir la simulacion*/
+
+	/*Obtener parametros por terminal*/
+	if(!(file_name = get_terminal_parameters(argc, argv, &clean))){
 		return 1;
 	}
 
-	/*Comienzo de ejecución del programa*/
-
+	/*Inicialización de variables del programa*/
 	SystemConfig forkingConfig;
-	// Creacion de colas
-	Queue arrivalQueue = create_queue(); // Es una lista pero esta utilizada como uan cola por comodidad
+	Queue arrivalQueue = create_queue();
 	Queue waitingQueue = create_queue();
 	Queue rrQueue = create_queue();
 	Queue sjfQueue = create_queue();
@@ -36,12 +34,14 @@ int main(int argc, char* argv[]) {
 	Process* auxProcessPtr;
 	Process auxProcess;
 	FILE* gant;
-
+	
+	/*Crear archivo de la carta gant*/
 	if((gant = fopen("gant.csv", "w")) == NULL){
 		print_error(101, "gant.csv", NULL);
 		exit(-1);
 	}
 	fprintf(gant, "Tick,Process\n");
+
 
 	if(system("clear")){
 		print_error(202,NULL,NULL);
@@ -53,9 +53,13 @@ int main(int argc, char* argv[]) {
 		print_error(101, file_name , NULL); // No se ha podido leer el archivo
 		return 1;
 	}
+
+
+
 	if(system("clear")){
 		print_error(202,NULL,NULL);
 	}
+
 	printf(ANSI_COLOR_BLUE"\t\tInformacion recopilada:\n\n"ANSI_COLOR_RESET);
 	printf("Total memoria: %u\n", forkingConfig.totalMemory);
 	printf("Minima memoria: %u\n", forkingConfig.minMemory);
@@ -204,6 +208,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	printf(ANSI_COLOR_BLUE"\t\tImprimiendo carta Gantt..." ANSI_COLOR_RESET"\n");
+	
 	execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
 
 	return 0;
