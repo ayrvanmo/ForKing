@@ -18,10 +18,20 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 		print_error(101, NULL, NULL);
 		return 1;
 	}
-	// Memoria maxima
-	if(!fscanf(inputInfo, "%u", &forkingConfig->totalMemory)){
-		printf("No se ha podido leer la memoria maxima\n");
+
+	int parametros[4];
+	/*
+		0: Memoria total
+		1: Memoria minima
+		2: Nucleos del procesador
+		3: Quantum para Round Robin
+	*/
+
+	if(!fscanf(inputInfo, "%d", &parametros[0]) || parametros[0] <= 0){
+		print_error(205, NULL, NULL);
 	}
+
+	forkingConfig->totalMemory = parametros[0];
 
 	if(forkingConfig->totalMemory == (unsigned int) two_power(floor_log2(forkingConfig->totalMemory))){
 		forkingConfig->totalMemory = two_power(floor_log2(forkingConfig->totalMemory));
@@ -30,21 +40,23 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 		forkingConfig->totalMemory = two_power(floor_log2(forkingConfig->totalMemory)+1);
 	}
 
-	// Memoria minima
-	if(!fscanf(inputInfo, "%u", &forkingConfig->minMemory)){
-		printf("No se ha podido leer la memoria minima\n");
+	if(!fscanf(inputInfo, "%d", &parametros[1]) || parametros[1] <= 0 || parametros[1] > parametros[0]){
+		print_error(206, NULL, NULL);
 	}
+
+	forkingConfig->minMemory = parametros[1];
 	forkingConfig->minMemory = two_power(floor_log2(forkingConfig->minMemory));
 
-	// Nucleos del procesador
-	if(!fscanf(inputInfo, "%u", &forkingConfig->cpuCores)){
-		printf("No se ha podido leer el numero de nucleos del procesador\n");
+	if(!fscanf(inputInfo, "%d", &parametros[2]) || parametros[2] <= 0){
+		print_error(207, NULL, NULL);
+	}
+	forkingConfig->cpuCores = parametros[2];
+
+	if(!fscanf(inputInfo, "%d", &parametros[3]) || parametros[3] <= 0){
+		print_error(208, NULL, NULL);
 	}
 
-	// Quantum para Round Robin
-	if(!fscanf(inputInfo, "%u", &forkingConfig->timeQuantum)){
-		printf("No se ha podido leer el quantum para Round Robin\n");
-	}
+	forkingConfig->timeQuantum = parametros[3];
 
 	forkingConfig->processes = load_process_list(inputInfo, forkingConfig->totalMemory, forkingConfig->minMemory);
 
@@ -96,7 +108,7 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
 				break;
 		}
 	}
-	
+
     if(filename == NULL){
         if(*clean){
             printf("'clean' solo puede utilizarse al ejecutar un archivo.\n");

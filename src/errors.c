@@ -50,6 +50,25 @@ void print_error(int num, char* target, char* obs) {
             printf("Cantidad invalida, la cantidad ingresada de be ser mayor a 0\n");
             exit(-1);
             break;
+        case 205:
+            printf("No se ha podido leer la memoria maxima \n");
+            exit(-1);
+        case 206:
+            printf("No se ha podido leer la memoria minima\n");
+            exit(-1);
+            break;
+        case 207:
+            printf("No se ha podido leer el numero de nucleos del procesador\n");
+            exit(-1);
+            break;
+        case 208:
+            printf("No se ha podido leer el quantum\n");
+            exit(-1);
+            break;
+        case 209:
+            printf("Proceso invalido, uno o mas parametros contienen valores negativos\n");
+            exit(-1);
+            break;
         case 300:
             printf("Lista vacia\n");
             break;

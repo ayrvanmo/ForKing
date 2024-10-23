@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	Process* auxProcessPtr;
 	Process auxProcess;
 	FILE* gant;
-	
+
 	/*Crear archivo de la carta gant*/
 	if((gant = fopen("gant.csv", "w")) == NULL){
 		print_error(101, "gant.csv", NULL);

@@ -356,8 +356,22 @@ List load_process_list(FILE *file, unsigned int maxMemory, unsigned int minMemor
 	List L = make_empty_list(NULL);
 	Process P;
 
+	int parametros[3];
+	/*
+		0: Tiempo de llegada
+		1: Tiempo de rafaga
+		2: Memoria requerida
+	*/
+
 	while(!feof(file)){
-		if(fscanf(file, "%u %u %u", &P.arrivalTime, &P.burstTime, &P.memoryRequired) == 3){
+		if(fscanf(file, "%d %d %d", &parametros[0], &parametros[1], &parametros[2]) == 3){
+
+			// Inicializamos el proceso
+			if(parametros[0] < 0 || parametros[1] < 0 || parametros[2] < 0){
+				print_error(209, NULL, NULL);
+			}
+
+			P.arrivalTime = parametros[0]; P.burstTime = parametros[1]; P.memoryRequired = parametros[2];
 			P.PID = pidCount;
 			if(validate_process(&P, maxMemory, minMemory)){
 				insert_element(P, L, header(L));
