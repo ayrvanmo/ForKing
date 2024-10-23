@@ -6,17 +6,16 @@
 #ifndef _QUEUE_H
 #define _QUEUE_H
 
+typedef struct _circularNode CircularNode;
+typedef struct _queueRecord QueueRecord;
+typedef CircularNode* PtrToCircularNode;
+typedef QueueRecord* Queue; // puntero a la cola
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "errors.h"
 #include "process.h"
-
-typedef struct _circularNode CircularNode;
-typedef struct _queueRecord QueueRecord;
-typedef CircularNode* PtrToCircularNode;
-
-typedef QueueRecord* Queue; // puntero a la cola
 
 /**
  * @struct _circularNode

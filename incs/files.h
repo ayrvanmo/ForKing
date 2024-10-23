@@ -6,6 +6,9 @@
 #ifndef FILES_H
 #define FILES_H
 
+typedef struct SystemConfig SystemConfig;
+typedef struct SystemStatus SystemStatus;
+
 #include <getopt.h> // Para ingreso de parametros por terminal
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,12 +16,13 @@
 #include "process.h"
 #include "errors.h"
 #include "queue.h"
+#include "buddySystem.h"
 #include "utilities.h"
 
 /*! \struct System
  * @brief Estructura de datos que representa las espeficiaciones del "sistema".
 */
-typedef struct SystemConfig
+struct SystemConfig
 {
 	unsigned int totalMemory;/*!< Memoria total disponible*/
 	unsigned int minMemory;/*!< Memoria minima a utilizar */
@@ -26,10 +30,15 @@ typedef struct SystemConfig
 	unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
 	unsigned int totalProcesses;/*!< Cantidad de procesos que se van a simular */
 	List processes;
-} SystemConfig;
+	Queue waitingQueue;
+	Queue arrivalQueue;
+	Queue rrQueue;
+	Queue sjfQueue;
+	BuddySystem buddySystem;
+};
 
 
-typedef struct SystemStatus
+struct SystemStatus
 {
 	unsigned int ticks;
 	unsigned int arrivalQueueNumber;
@@ -40,7 +49,7 @@ typedef struct SystemStatus
 	unsigned int totalProceses;
 	unsigned int remainingProceses;
 	unsigned int remainingQuantumTime;
-} SystemStatus;
+};
 
 int read_input_file(char* file_name, SystemConfig* forkingConfig);
 void print_program(SystemConfig config, SystemStatus status, Queue waitingQueue, Queue arrivalQueue, Queue rrQueue, Queue sjfQueue);

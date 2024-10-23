@@ -7,20 +7,20 @@
 #ifndef BUDDY_SYSTEM
 #define BUDDY_SYSTEM
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include "errors.h"
-#include "files.h"
-#include "process.h"
-#include "utilities.h"
-
 typedef struct _buddy Buddy;
 typedef struct _treeNode TreeNode;
 typedef TreeNode* PrtToTreeNode;
 typedef PrtToTreeNode TreePosition;
 typedef PrtToTreeNode BuddySystem;
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include "files.h"
+#include "errors.h"
+#include "process.h"
+#include "utilities.h"
 
 /*! \struct Buddy
   * @brief Estructura para manejar los buddys dentro del BuddySystem

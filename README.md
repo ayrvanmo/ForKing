@@ -32,12 +32,11 @@ Donde:
 - [X] Optimizar el tiempo de demora del ordenamiento de Lista(Bubble sort a Merge Sort)
 - [X] Optimizar el manejo de procesos con ticks iguales
 - [X] Actualizar status y utilizarlos para la waiting_queue
- - ~~[ ] Trabajar con procesos paralelos ~~
 - [X] Manejar casos limites (Manejo de procesos)
 - [x] Asegurar que no entren procesos con mas memoria de la permitida -> Se optó por aproximar a la mayor potencia de dos la memoria
 - [X] Solucionar el problema de la wating_queue **URGENTE**
 - [X] Optimizar operaciones con potencias de dos en el BuddySystem (Binario)
 - [X] Hacer que la waiting_queue se ordene según memoria de menor a mayor
-- [ ] Pasar main a funcion
+- [X] Pasar main a funcion
 - [X] Manejar paso de parametros negativos (sencillo)
 - [ ] Optimizar en general y dar el visto bueno
