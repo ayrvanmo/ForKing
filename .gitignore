@@ -5,3 +5,5 @@
 *.txt
 *.csv
 /build/
+/docs/doxygen/
+/docs/Latex/build/

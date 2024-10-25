@@ -1,0 +1,50 @@
+\section{Gestión del equipo de trabajo}
+\rhostart{E}l equipo de trabajo constó de 3 personas, entre las cuales se tomaron las decisiones y se distribuyeron las tareas. Para un mejor orden y eficiencia, se establecieron normas de codificación, se acordó trabajar mediante una lista de tareas pendientes y realizar reuniones semanales.
+
+\subsection{Normas de codificación}
+En lo que respecta el nombramiento de variables, las constantes fueron llamadas con el formato \verb|SCREAMING_SNAKE_CASE|, y las variables con \verb|camelCase|.
+
+
+\begin{lstlisting}[language=C, caption=Ejemplo de Screaming Snake Case y camelCase]
+#define CLEAR_SCREEN "\033[H\033[J"
+unsigned int arrivalTime;
+\end{lstlisting}
+
+Se acordó nombrar a las funciones con el formato \verb|snake_case|, y colocar sus llaves de apertura debajo de su prototipo.
+
+\begin{lstlisting}[language=C, caption=Ejemplo de Snake case]
+void delete_list(List L)
+{
+    Position P, Tmp;
+    P = L->next;
+    L->next = NULL;
+    while(P!= NULL){
+        Tmp = P->next;
+        free(P);
+        P = Tmp;
+    }
+}
+\end{lstlisting}
+
+Por otro lado las llaves de apertira de otros bloques de código se colocaron justo al lado de su línea final, evitando omitir las llaves cuando existiese una única sentencia.
+
+\begin{lstlisting}[language=C, caption=Ejemplo bloques de código]
+if(!clean){
+    // Imprimir Informacion final
+    print_program(&forkingConfig, forkingStatus);
+}
+\end{lstlisting}
+
+Por último, para los archivos de cabecera se acordó usar guardias, con el nombre de su archivo en \verb|SCREAMING_SNAKE_CASE|.
+
+\begin{lstlisting}[language=C, caption=Ejemplo de Guardias en archivos de cabecera]
+#ifndef PROCESS_H
+#define PROCESS_H
+\end{lstlisting}
+
+\subsection{Lista de tareas y organización}
+Una vez establecida una norma de codificación común, se establecieron objetivos a corto, mediano y largo plazo, los cuales fueron listados para mantener un control del flujo de trabajo y repartirlos; por ejemplo, el primer objetivo fue crear las estructuras de datos necesarias (colas, listas enlazadas y árbol binario), por lo que se le encargó a cada integrante la codificación de una de ellas.
+
+\subsection{Reuniones semanales}
+
+Se fijaron semanalmente días y horarios de trabajo en conjunto, con el objetivo de discutir y/o fijar los objetivos del proyecto, resolver problemas de código mayores, o simplemente avanzar con Las tareas fijadas cada uno por separado; estas reuniones se hicieron de forma tanto presencial como asincrónicas a través de videollamadas y la herramienta LiveShare\footnote{Extensión de Visual Studio Code que permite el trabajo paralelo en un entorno virtual.} para codificar en conjunto. Esta modalidad fue extremadamente útil, pues se mantuvo una buena consistencia y flujo de avances semanales, en poco tiempo cumpliendo en poco tiempo con buena parte de los objetivos autoimpuestos. Por otro lado, para tareas menores se permitió que cada uno trabajara individualmente en la tarea que estimase conveniente fuera de estos horarios establecidos.

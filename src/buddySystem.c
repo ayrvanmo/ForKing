@@ -207,6 +207,11 @@ Process* retrieve_buddy(Buddy B)
 	return B.process;
 }
 
+/**
+ * @brief Imprime el estado del buddySystem @p T
+ *
+ * @param T Estructura de datos que representa el buddySystem
+*/
 void print_buddy_system(BuddySystem T)
 {
 	if(T == NULL){

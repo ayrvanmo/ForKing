@@ -1,5 +1,24 @@
+# Documentación general de Forking
+
 ## Autores
 Milton Hernandez, Ivan Mansilla, Ayrton Morrison
+
+## Ejecución del programa
+Para ejecutar el programa se debe seguir los siguientes pasos:
+1. Generar las carpetas necesarias con el comando `make folders`
+2. Compilar el programa con el comando `make`
+3. Entrar al directorio `build` y generar su lista de procesos mediante el ejecutable `generator.out`
+4. Ejecutar el programa con el comando `./forking.out -f <archivo de lista de procesos>`
+5. De no tenerlo instalado se recomienda instalar `python3` con las siguientes dependencias
+    - `random`
+    - `matplotlib`
+    - `pandas`
+6. Al tener `python3` instalado se generará una carta Gantt con los procesos realizados si son menos de 25 procesos.
+7. Puede usar la bandera `-c` para evitar todas las impresiones por pantalla y solamente ver el tiempo de ejecución y la Carta Gantt.
+
+### Otros comandos
+- `make doc` Generará una documentación con [Doxygen](https://www.doxygen.nl/), que se presentará en la carpeta `docs/doxygen`, se recomienda abrir el archivo `docs/doxygen/html/index.html` para visualizar la documentación completa del programa.
+  - Alternativamente puede ejecutar `make` dentro de `docs/doxygen/latex/` para obtener un `refman.pdf` correspondiente a la documentación del proyecto en formato PDF.
 
 ## Manejo de errores
 Dentro del archivo [errors.c](src/errors.c) se encuentra la función `print_error` que se encarga de manejar los errores que puedan ocurrir en el programa. Los códigos de error que se manejan son los siguientes:

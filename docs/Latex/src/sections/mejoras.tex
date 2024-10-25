@@ -1,0 +1,30 @@
+\section{Posibles Mejoras a futuro}
+\rhostart{A} pesar de su correcta funcionalidad \textit{forKing} tiene algunas limitaciones que podrían ser mejoradas en el futuro así como caracteristicas que podrían mejorar su funcionalidad pero que, por distintas razones, fueron omitidas; estas son las siguientes:
+\begin{enumerate}
+    \item \textbf{Ordenamiento de colas}: La cola \texttt{sjfQueue}, para su correcto funcionamiento debe estar ordenada de tal manera que el proceso que se encuentra al inicio de la misma sea aquel de la cola con el menor \texttt{burstTime}; este es también el caso de la cola \texttt{WaitingQueue} donde el primer proceso debe ser el de menor requerimiento de memoria.
+    El proceso usado para conseguir este resultado tiene una complejidad de $O(n)$, sin embargo no se encontró una manera más eficiente de conseguirlo.
+    Lo anterior ocasiona que para cantidades de procesos muy grandes la simulación pueda tardar mucho tiempo en ejecutarse.
+    \item \textbf{Uso ineficiente del BuddySystem}: El \textit{BuddySystem} a pesar de solucionar la mayoría de problemas de asignación de memoria tiene un defecto clave: Depende de espacios con potencias de dos, esto ocasiona que si un proceso requiere $1025$ bytes de memoria, el \textit{BuddySystem} tendrá que asignar $2048$ bytes de memoria a dicho proceso, desperdiciando $1023$ bytes de memoria.
+    Esto podría solucionarse complejizando más el algoritmo de asignación de memoria.
+    \item \textbf{Trabajo con hebras y/o procesos paralelos}: Una de las ideas más ambiciosas surgida en los inicios del desarrollo de forKing fue el trabajar con procesos paralelos, mediante el uso de \textit{hebras}\footnote{Unidad más pequeña de ejecución dentro de un proceso, que permite realizar tareas concurrentes compartiendo la memoria del proceso principal} o, de procesos generados con \texttt{fork()}\footnote{Funcion estandar de la libreria ``unistd.h'', la cual permite generar procesos hijos. \parencite{fork_function}} (de ahí el nombre del proyecto), sin embargo dada la complejidad de esta implementación y el tiempo con el que se contaba para la realización del proyecto se prefirió no enforcar los esfuerzos en dicha dirección.
+    \item \textbf{Bloqueo de procesos, espera y ráfagas de E/S}: Durante el inicio de este proyecto se realizó una simplificación de lo que un simulador de un gestor de memoria y planificación de procesos debería hacer, en esta etapa se simplificó su funcionamiento dejando de lado algunas características como:
+    \begin{itemize}
+        \item \textbf{Bloqueo de procesos}: Se decidió no tener en cuenta el bloqueo de procesos, donde un proceso podría necesitar de la previa ejecución de otro para proceder con su ejecución.
+        \item \textbf{Ráfagas de E/S}: En sistemas operativos reales un proceso no necesita un único \textit   {burstTime} para su completa ejecución sino que puede requerir de varias ráfagas de CPU combinadas con ráfagas de E/S, por lo que se decidió no tener en cuenta esta característica.
+    \end{itemize}
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

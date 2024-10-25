@@ -1,7 +1,7 @@
 /**
  * @file buddySystem.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
- * @brief Cabecera relacionada al archivo buddySystem.c
+ * @brief Cabecera relacionada con el BuddySystem (buddySystem.c)
  */
 
 #ifndef BUDDY_SYSTEM
@@ -22,16 +22,16 @@ typedef PrtToTreeNode BuddySystem;
 #include "process.h"
 #include "utilities.h"
 
-/*! \struct Buddy
-  * @brief Estructura para manejar los buddys dentro del BuddySystem
-  */
+/** \struct _buddy
+  * @brief Estructura para manejar los Budies dentro del BuddySystem
+*/
 struct _buddy{
 	Process* process; /*!< Representa el proceso asociado al buddy, PID -1 en caso de no existir */
 	unsigned int order; /*!< Representa la altura de un Buddy */
 	bool isUsed; /*!< Indica si el espacio de memoria de un buddy esta siendo ocupado */
 };
 
-/** \struct TreeNode
+/** \struct _treeNode
  * @brief Estructura encargada de generar los nodos de un BuddySystem
  */
 struct _treeNode{

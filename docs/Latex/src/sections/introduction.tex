@@ -1,0 +1,31 @@
+\section{Introduction}
+
+\rhostart{F}orking es un simulador de gestión de memoria y planificación de procesos, este hace uso de diversas estructuras de datos, como lo son; Listas en enlazadas simples, colas, arboles, etc. El simulador se encarga de emular la ejecución de procesos en un sistema operativo, pasando por una asignación de memoria, para luego ser procesado con criterios específicos para maximizar la eficiencia del sistema.
+
+Para llevar a buen término el desarrollo de esta aplicación hubo que decidir cuales serían las características que harían de este proyecto uno de interés. Algunas a destacar son:
+\begin{enumerate}
+    \item \textbf{Cantidad de procesos}: Es importante permitir al usuario especificar el numero de tareas que se encuentran en el sistema, logrando procesar cantidades pequeñas pero también generar simulaciones con cantidades mayores.
+    \item \textbf{Tiempo de llegada y tiempo de ejecución}: Es fundamental darle libertad al usuario para especificar el tiempo de llegada de cada proceso, así como el tiempo de ejecución de cada tarea, para hacer simulaciones fieles al comportamiento real.
+    \item \textbf{Memoria requerida por cada proceso}: Por supuesto las tareas no ocuparán todas la misma cantidad de memoria RAM por lo que manejar memorias diversas será importante para el buen desarrollo del proyecto.
+    \item \textbf{Fragmentación de memoria}: Controlar la fragmentación de memoria puede ser clave para la eficiencia de un sistema operativo, por lo que fue una de las prioridades a la hora de desarrollar esta aplicación.
+\end{enumerate}
+
+La elección de los algoritmos de gestión y planificación de procesos fue un punto clave en el desarrollo del proyecto, ya que estos conforman las bases del simulador y son los encargados de hacer que el sistema sea eficiente y funcional. Los algoritmos de gestión de memoria y planificación de tareas elegidos fueron:
+\begin{enumerate}
+    \item \textbf{BuddySystem}: Algoritmo de gestión de memoria que divide la memoria en bloques de tamaño potencia de 2, permitiendo una asignación de memoria eficiente.
+    \item \textbf{RoundRobin}: Algoritmo de planificación de procesos que asigna un tiempo de ejecución a cada proceso, permitiendo que todos los procesos tengan la misma prioridad.
+    \item \textbf{ShortestJobFirst}: Algoritmo de planificación de procesos que trabaja proceso que requieren de un \textit{burstime} menor, permitiendo que los procesos mas cortos tengan prioridad.
+\end{enumerate}
+Mas adelante se profundizará más en el funcionamiento e implementación de cada uno de estos, asi como también en las estructuras de datos utilizadas.
+
+\section{Objetivos}
+El objetivo principal de este proyecto es: Construir una simulación de sistema de gestión de memoria y planificación de procesos, mediante el uso de las estructuras de datos vistas en clase.
+
+\subsection{Objetivos secundarios}
+\begin{enumerate}
+    \item \textbf{Uso de estructuras de datos}: Construir un software funcional, eficiente y bien estructurado, mediante el uso de estructuras de datos, como listas enlazadas, colas, arboles, etc.
+    \item \textbf{Eficiencia}: Generar breves tiempos de procesamiento haciendo un uso eficiente de recursos y una elección adecuada de algoritmos.
+    \item \textbf{Trabajo en grupo}: Reforzar el trabajo en equipo, asignando roles y tareas a cada miembro del equipo.
+    \item \textbf{Planificación de tareas}: Dividir el proyecto en tareas atómicas que permitan su realización de manera más efectiva, asignando tiempos y recursos a cada una de estas.
+\end{enumerate}
+

@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
 	else
 	{
 		printf(ANSI_COLOR_BLUE"\t\tImprimiendo carta Gantt..." ANSI_COLOR_RESET"\n");
-		if(!fork()) // Creamos un proceso hijo para crear la Carta Gant :D
+		if(!fork()) // Creamos un proceso hijo para crear la Carta Gant :D, de aqui el nombre "forKing"
 			execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
 		wait(NULL);
 	}

@@ -1,7 +1,7 @@
 /**
  * @file forking.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
- * @brief Cabecera de las funciones principales de Foking
+ * @brief Cabecera de las funciones principales de forKing (forking.c)
 */
 #ifndef FORKING_H
 #define FORKING_H

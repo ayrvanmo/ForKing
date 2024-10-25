@@ -1,8 +1,9 @@
 /**
- * @file process.h
+ * @file errors.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
- * @brief Funciones para manejo de errores
-*/
+ * @brief Funciones para manejo de errores (errors.c)
+ */
+ 
 #ifndef ERRORS_H
 #define ERRORS_H
 

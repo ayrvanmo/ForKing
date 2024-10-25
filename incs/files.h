@@ -1,13 +1,13 @@
 /**
  * @file files.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
- * @brief Funciones relacionadas con el manejo de archivos
+ * @brief Cabecera relacionadas con el manejo de archivos (files.c)
 */
 #ifndef FILES_H
 #define FILES_H
 
-typedef struct SystemConfig SystemConfig;
-typedef struct SystemStatus SystemStatus;
+typedef struct _systemConfig SystemConfig;
+typedef struct _systemStatus SystemStatus;
 
 #include <getopt.h> // Para ingreso de parametros por terminal
 #include <stdio.h>
@@ -19,10 +19,10 @@ typedef struct SystemStatus SystemStatus;
 #include "buddySystem.h"
 #include "utilities.h"
 
-/*! \struct System
+/*! \struct _systemConfig
  * @brief Estructura de datos que representa las espeficiaciones del "sistema".
 */
-struct SystemConfig
+struct _systemConfig
 {
 	unsigned int totalMemory;/*!< Memoria total disponible*/
 	unsigned int minMemory;/*!< Memoria minima a utilizar */
@@ -38,18 +38,20 @@ struct SystemConfig
 	BuddySystem buddySystem; /*!< Estructura de datos que representa el "sistema" de buddies */
 };
 
-
-struct SystemStatus
+/*! \struct _systemStatus
+ * @brief Estructura de datos que representa el estado del "sistema".
+*/
+struct _systemStatus
 {
-	unsigned int ticks;
-	unsigned int arrivalQueueNumber;
-	unsigned int waitingQueueNumber;
-	unsigned int rrQueueNumber;
-	unsigned int sjfQueueNumber;
-	unsigned int avaliableMemory;
-	unsigned int totalProceses;
-	unsigned int remainingProceses;
-	unsigned int remainingQuantumTime;
+	unsigned int ticks; /*!< Numero de ticks que han transcurrido desde que se inicio el programa */
+	unsigned int arrivalQueueNumber; /*!< Numero de procesos presentes en la cola de llegada */
+	unsigned int waitingQueueNumber; /*!< Numero de procesos presentes en la cola de espera */
+	unsigned int rrQueueNumber; /*!< Numero de procesos presentes en la cola de Round Robin */
+	unsigned int sjfQueueNumber; /*!< Numero de procesos presentes en la cola de Shortest Job First */
+	unsigned int avaliableMemory; /*!< Memoria disponible para procesar los procesos */
+	unsigned int totalProceses; /*!< Numero de procesos que se van a simular */
+	unsigned int remainingProceses; /*!< Numero de procesos que aún no han sido procesados */
+	unsigned int remainingQuantumTime; /*!< Tiempo restante del quantum (Round Robin) */
 };
 
 int read_input_file(char* file_name, SystemConfig* forkingConfig);

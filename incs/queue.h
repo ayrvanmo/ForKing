@@ -1,6 +1,7 @@
 /**
  * @file queue.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
+ * @brief Cabecera relacionada con colas (queue.c)
  */
 
 #ifndef _QUEUE_H

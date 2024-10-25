@@ -24,11 +24,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	rm -f $(OBJ_FILES)
 	rm -f build/*
+	rm -fr docs/doxygen/
+	rm -fr docs/Latex/build/
 
 folders:
 	mkdir -p src obj incs build docs
+doc:
+	doxygen
 
 
 send:
 	tar czf $(GRUPO)-$(NTAR).tgz --transform 's,^,$(GRUPO)-$(NTAR)/,' Makefile src incs docs
-

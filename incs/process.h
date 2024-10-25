@@ -1,7 +1,7 @@
 /**
  * @file process.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
- * @brief Cabezera relacionada a process.c
+ * @brief Cabecera relacionada a process.c
  */
 
 #ifndef PROCESS_H

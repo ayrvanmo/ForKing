@@ -4,12 +4,12 @@
  * @brief Funciones y estructuras relacionadas a los procesos
 */
 #include "process.h"
+
 /**
  * @brief Verifica si la lista esta vacia
  * @param L Lista entregada
  * @return int Devuelve 1 si esta vacia y 0 si no lo esta
  */
-
 int is_empty_list(List L)
 {
 	return L->next == NULL;
@@ -19,7 +19,6 @@ int is_empty_list(List L)
  * @brief Imprime en pantalla la lista de procesos
  * @param L Lista entregada
  */
-
 void print_list(List L)
 {
 	//printf("La lista de procesos es: \n");
@@ -40,18 +39,18 @@ void print_list(List L)
  * @brief Imprime en pantalla un proceso
  * @param P Proceso a imprimir
  */
-
-void print_process(Process P){
+void print_process(Process P)
+{
 	printf("PID:%5d ", P.PID);
 	printf("Arrival:%5d ",P.arrivalTime);
 	printf("Burst:%5d ",P.burstTime);
 	printf("Memory:%5d \n",P.memoryRequired);
 }
+
 /**
  * @brief Elimina y libera la memoria de la lista de procesos
  * @param L Lista entregada
  */
-
 void delete_list(List L)
 {
 	Position P, Tmp;
@@ -69,7 +68,6 @@ void delete_list(List L)
  * @param P
  * @return int
  */
-
 int is_last(Position P)
 {
 	return P->next == NULL;
@@ -80,7 +78,6 @@ int is_last(Position P)
  * @param L Lista entregada
  * @return List Retorna la lista vacia
  */
-
 List make_empty_list(List L)
 {
 	if(L != NULL){
@@ -95,13 +92,13 @@ List make_empty_list(List L)
 	L->next = NULL;
 	return L;
 }
+
 /**
  * @brief Encuentra un proceso dentro de la lista de procesos
  * @param X Proceso que se busca
  * @param L Lista
  * @return Position Retorna la posicion del proceso
  */
-
 Position find_process(Process X, List L)
 {
 	Position P;
@@ -167,6 +164,7 @@ Position insert_element(Process X, List L, Position P)
 	L->data.PID++;
 	return P->next;
 }
+
 /**
  * @brief Inserta un proceso al final de la lista
  * @param X Proceso entregado
@@ -191,6 +189,7 @@ List header(List L)
 {
 	return L;
 }
+
 /**
  * @brief Entrega el primer elemento de la lista
  * @param L Lista entregada
@@ -200,6 +199,7 @@ List first(List L)
 {
 	return L->next;
 }
+
 /**
  * @brief Entrega la posicion contigua a una posicion en la lista
  * @param P Posicion entregada
@@ -210,6 +210,7 @@ Position advance(Position P)
 {
 	return P->next;
 }
+
 /**
  * @brief Devuelve el proceso dentro de una posicion
  * @param P Posicion entregada
@@ -281,7 +282,7 @@ List midPoint(List L)
  */
 List merge(Position a, Position b, unsigned int(*criterion)(Process))
 {
-	// Implementacion iterativa
+
     Position tmpNode = (Position)malloc(sizeof(ProcessNode)); // Nodo temporal
 	if(tmpNode == NULL){
 		print_error(200, NULL, NULL);

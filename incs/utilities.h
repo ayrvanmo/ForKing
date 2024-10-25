@@ -1,7 +1,7 @@
 /**
  * @file utilities.h
  * @author Milton Hernandez, Ivan Mansilla, Ayrton Morrison
- * @brief Funciones de micelania
+ * @brief Funciones miscelaneas (utilities.c)
 */
 #ifndef UTILITIES_H
 #define UTILITIES_H
