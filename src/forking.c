@@ -37,25 +37,11 @@ void process_waiting_queue(SystemConfig* config, SystemStatus* status)
  * @param status Estructura encargada de contener informacion de estado actual del sistema
 */
 void process_list_by_tick(SystemConfig* config, SystemStatus* status){
-    Process* auxProcessPtr;
-	Process auxProcess;
-    unsigned int auxPID = first(config->processes)->data.PID;
-    bool workedAuxPID = 0;
-    while(first(config->processes) && (first(config->processes)->data.arrivalTime == status->ticks)){ // Funciona solo si la lista de procesos esta ordenada
-
-        // Para evitar caso en que entran solo procesos con el mismo arrival
-        if(workedAuxPID && first(config->processes)->data.PID == auxPID){
-            break;
-        }
-        else{
-            workedAuxPID = 1;
-        }
-
-        auxProcess = first(config->processes)->data;
-        delete_element(first(config->processes)->data, config->processes);
-        auxProcessPtr = &insert_element_end(auxProcess, config->processes)->data;
-        enqueue(auxProcessPtr, config->arrivalQueue);
+    while(config->nextProcess && (config->nextProcess->data.arrivalTime == status->ticks)){
+        // Funciona solo si la lista de procesos esta ordenada
+        enqueue(&(config->nextProcess->data), config->arrivalQueue);
         status->arrivalQueueNumber++;
+        config->nextProcess = config->nextProcess->next;
     }
 }
 

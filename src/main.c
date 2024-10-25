@@ -80,6 +80,7 @@ int main(int argc, char* argv[]) {
 	forkingConfig.rrQueue = rrQueue;
 	forkingConfig.sjfQueue = sjfQueue;
 	forkingConfig.buddySystem = forkingBuddySystem;
+	forkingConfig.nextProcess = first(forkingConfig.processes);
 
 	// inicio de la simulacion
 
@@ -126,14 +127,14 @@ int main(int argc, char* argv[]) {
 	// Se imprime la Carta Gantt con ayuda de Python
 	if(forkingStatus.totalProceses > 25){
 		printf(ANSI_COLOR_RED"Demasiados procesos para imprimir carta Gantt\n\n"ANSI_COLOR_RESET);
-		printf(ANSI_COLOR_CYAN "\n\t\tGracias por usar Forking!\n\n"ANSI_COLOR_RESET);
-		return 1;
 	}
-	printf(ANSI_COLOR_BLUE"\t\tImprimiendo carta Gantt..." ANSI_COLOR_RESET"\n");
-
-	if(!fork()) // Creamos un proceso hijo para crear la Carta Gant :D
-		execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
-	wait(NULL);
+	else
+	{
+		printf(ANSI_COLOR_BLUE"\t\tImprimiendo carta Gantt..." ANSI_COLOR_RESET"\n");
+		if(!fork()) // Creamos un proceso hijo para crear la Carta Gant :D
+			execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
+		wait(NULL);
+	}
 
 	printf(ANSI_COLOR_CYAN "\n\t\tGracias por usar Forking!\n\n"ANSI_COLOR_RESET);
 

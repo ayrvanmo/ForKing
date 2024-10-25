@@ -29,12 +29,13 @@ struct SystemConfig
 	unsigned int cpuCores;/*!< Cantidad de "nucleos" del "procesador" */
 	unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
 	unsigned int totalProcesses;/*!< Cantidad de procesos que se van a simular */
-	List processes;
-	Queue waitingQueue;
-	Queue arrivalQueue;
-	Queue rrQueue;
-	Queue sjfQueue;
-	BuddySystem buddySystem;
+	List processes; /*!< Lista de procesos a simular */
+	ptrToNode nextProcess; /*!< Puntero al siguiente proceso para procesar */
+	Queue waitingQueue; /*!< Cola de espera de procesos */
+	Queue arrivalQueue; /*!< Cola de llegada de procesos */
+	Queue rrQueue; /*!< Cola de Round Robin */
+	Queue sjfQueue; /*!< Cola de Shortest Job First */
+	BuddySystem buddySystem; /*!< Estructura de datos que representa el "sistema" de buddies */
 };
 
 

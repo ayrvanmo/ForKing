@@ -26,8 +26,8 @@ int main(int argc, char* argv[]){
     srand(time(NULL));
 
 	if (argc != 2) {
-        printf(ANSI_COLOR_RED "Fatal Error 204:" ANSI_COLOR_RESET);
-        printf("Cantidad invalida, la cantidad ingresada de be ser mayor a 0\n");
+        printf(ANSI_COLOR_RED "Fatal Error 210:" ANSI_COLOR_RESET);
+        printf("No se ingreso un argumento, intente con './generator.c <numero de procesos>'\n");
         return 1;
     }
 

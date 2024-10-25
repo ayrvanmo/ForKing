@@ -18,6 +18,7 @@ Dentro del archivo [errors.c](src/errors.c) se encuentra la función `print_erro
 | 207 | No sea ha podido leer el numero de nucleos del procesor |
 | 208 | No sea ha podido leer el quantum |
 | 209 | Proceso invalido, uno o mas parametros contienen valores negativos |
+| 210 | No se ingreso un argumento, intente con './generator.c <numero de procesos>' |
 | 300 | Lista vacía |
 | 301 | Inconsistencia, Buddy encontrado tiene hijos |
 | 302 | Cola Vacia |
