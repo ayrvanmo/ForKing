@@ -19,12 +19,11 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 		return 1;
 	}
 
-	int parametros[4];
+	int parametros[3];
 	/*
 		0: Memoria total
 		1: Memoria minima
-		2: Nucleos del procesador
-		3: Quantum para Round Robin
+		2: Quantum para Round Robin
 	*/
 
 	if(!fscanf(inputInfo, "%d", &parametros[0]) || parametros[0] <= 0){
@@ -47,13 +46,9 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 	forkingConfig->minMemory = parametros[1];
 	forkingConfig->minMemory = two_power(floor_log2(forkingConfig->minMemory));
 
+
 	if(!fscanf(inputInfo, "%d", &parametros[2]) || parametros[2] <= 0){
 		print_error(207, NULL, NULL);
-	}
-	forkingConfig->cpuCores = parametros[2];
-
-	if(!fscanf(inputInfo, "%d", &parametros[3]) || parametros[3] <= 0){
-		print_error(208, NULL, NULL);
 	}
 
 	forkingConfig->timeQuantum = parametros[2];

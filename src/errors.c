@@ -58,14 +58,10 @@ void print_error(int num, char* target, char* obs) {
             exit(-1);
             break;
         case 207:
-            printf("No se ha podido leer el numero de nucleos del procesador\n");
-            exit(-1);
-            break;
-        case 208:
             printf("No se ha podido leer el quantum\n");
             exit(-1);
             break;
-        case 209:
+        case 208:
             printf("Proceso invalido, uno o mas parametros contienen valores negativos\n");
             exit(-1);
             break;

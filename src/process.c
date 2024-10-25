@@ -369,7 +369,7 @@ List load_process_list(FILE *file, unsigned int maxMemory, unsigned int minMemor
 
 			// Inicializamos el proceso
 			if(parametros[0] < 0 || parametros[1] < 0 || parametros[2] < 0){
-				print_error(209, NULL, NULL);
+				print_error(208, NULL, NULL);
 			}
 
 			P.arrivalTime = parametros[0]; P.burstTime = parametros[1]; P.memoryRequired = parametros[2];
