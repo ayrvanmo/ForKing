@@ -131,25 +131,25 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
  * @param rrQueue Cola de Round Robin
  * @param sjfQueue Cola de Shortest Job First
  */
-void print_program(SystemConfig config, SystemStatus status, Queue waitingQueue, Queue arrivalQueue, Queue rrQueue, Queue sjfQueue){
+void print_program(SystemConfig* config, SystemStatus status){
 
-	int percentage = (status.avaliableMemory*100)/(float)config.totalMemory;
+	int percentage = (status.avaliableMemory*100)/(float)config->totalMemory;
 
 	// Imprimir Informacion del tick
 	printf(CLEAR_SCREEN);
 	printf(ANSI_COLOR_YELLOW"Ticks: %u\n"ANSI_COLOR_RESET, status.ticks);
-	printf("Memoria disponible: %u%%   (%u/%u)\n", percentage, status.avaliableMemory, config.totalMemory);
-	printf("Procesos restantes: %u/%u\n", status.remainingProceses, config.totalProcesses);
+	printf("Memoria disponible: %u%%   (%u/%u)\n", percentage, status.avaliableMemory, config->totalMemory);
+	printf("Procesos restantes: %u/%u\n", status.remainingProceses, config->totalProcesses);
 	printf(ANSI_COLOR_BLUE"------------------ ArrivalQueue ------------------\n"ANSI_COLOR_RESET);
-	if(!is_empty_queue(arrivalQueue))print_queue(arrivalQueue);
+	if(!is_empty_queue(config->arrivalQueue))print_queue(config->arrivalQueue);
 	printf("\n");
 	printf(ANSI_COLOR_GREEN"------------------ WaitingQueue ------------------\n"ANSI_COLOR_RESET);
-	if(!is_empty_queue(waitingQueue))print_queue(waitingQueue);
+	if(!is_empty_queue(config->waitingQueue))print_queue(config->waitingQueue);
 	printf("\n");
 	printf(ANSI_COLOR_CYAN"------------------    RRQueue   ------------------\n"ANSI_COLOR_RESET);
-	if(!is_empty_queue(rrQueue))print_queue(rrQueue);
+	if(!is_empty_queue(config->rrQueue))print_queue(config->rrQueue);
 	printf("\n");
 	printf(ANSI_COLOR_MAGENTA"------------------   SJFQueue   ------------------\n"ANSI_COLOR_RESET);
-	if(!is_empty_queue(sjfQueue))print_queue(sjfQueue);
+	if(!is_empty_queue(config->sjfQueue))print_queue(config->sjfQueue);
 	printf("\n");
 }

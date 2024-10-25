@@ -26,11 +26,6 @@ int main(int argc, char* argv[]) {
 
 	/*Inicialización de variables del programa*/
 	SystemConfig forkingConfig;
-	Queue arrivalQueue = create_queue();
-	Queue waitingQueue = create_queue();
-	Queue rrQueue = create_queue();
-	Queue sjfQueue = create_queue();
-	BuddySystem forkingBuddySystem;
 	FILE* gant;
 
 	/*Crear archivo de la carta gant*/
@@ -72,14 +67,13 @@ int main(int argc, char* argv[]) {
 	forkingConfig.totalProcesses = forkingConfig.processes->data.PID;
 
 	SystemStatus forkingStatus = {0, 0, 0, 0, 0, forkingConfig.totalMemory, forkingConfig.totalProcesses, forkingConfig.totalProcesses, forkingConfig.timeQuantum};
-	forkingBuddySystem = empty_buddy_system(NULL, forkingConfig);
 
 	// Apuntamos los punteros de la configuracion a las colas y al BuddySystem
-	forkingConfig.waitingQueue = waitingQueue;
-	forkingConfig.arrivalQueue = arrivalQueue;
-	forkingConfig.rrQueue = rrQueue;
-	forkingConfig.sjfQueue = sjfQueue;
-	forkingConfig.buddySystem = forkingBuddySystem;
+	forkingConfig.waitingQueue = create_queue();
+	forkingConfig.arrivalQueue = create_queue();
+	forkingConfig.rrQueue = create_queue();
+	forkingConfig.sjfQueue = create_queue();
+	forkingConfig.buddySystem = empty_buddy_system(NULL, forkingConfig);
 	forkingConfig.nextProcess = first(forkingConfig.processes);
 
 	// inicio de la simulacion
@@ -99,17 +93,17 @@ int main(int argc, char* argv[]) {
 
 		if(!clean){
 			// Imprimir Informacion del tick
-			print_program(forkingConfig, forkingStatus, waitingQueue, arrivalQueue, rrQueue, sjfQueue);
+			print_program(&forkingConfig, forkingStatus);
 		}
 
 		// Manejar arrival_queue
 		process_arrival_queue(&forkingConfig, &forkingStatus);
 
 		// Procesamiento de los procesos en las colas de listo RR y SJF
-		if(!is_empty_queue(sjfQueue)){ //Sjf
+		if(!is_empty_queue(forkingConfig.sjfQueue)){ //Sjf
 			process_sjf_queue(&forkingConfig, &forkingStatus, gant);
 		}
-		else if(!is_empty_queue(rrQueue)){ // RoundRobin
+		else if(!is_empty_queue(forkingConfig.rrQueue)){ // RoundRobin
 			process_rr_queue(&forkingConfig, &forkingStatus, gant);
 		}
 		forkingStatus.ticks++;
@@ -120,7 +114,7 @@ int main(int argc, char* argv[]) {
 
 	if(!clean){
 		// Imprimir Informacion final
-		print_program(forkingConfig, forkingStatus, waitingQueue, arrivalQueue, rrQueue, sjfQueue);
+		print_program(&forkingConfig, forkingStatus);
 	}
 	printf("Proceso terminado luego de %u ticks\n\n", forkingStatus.ticks-1);
 
