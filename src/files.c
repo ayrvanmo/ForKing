@@ -56,7 +56,7 @@ int read_input_file(char* file_name, SystemConfig* forkingConfig) {
 		print_error(208, NULL, NULL);
 	}
 
-	forkingConfig->timeQuantum = parametros[3];
+	forkingConfig->timeQuantum = parametros[2];
 
 	forkingConfig->processes = load_process_list(inputInfo, forkingConfig->totalMemory, forkingConfig->minMemory);
 
@@ -91,9 +91,6 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
 	while((opt = getopt_long(argc, argv, ":hcf:", long_options, &opt_index)) != -1){
 
 		switch(opt){
-			case 'h':
-				printf("forking -f <archivo>      Ejecuta el programa\nforking -f <archivo> -c	  Ejecutar sin imprimir la simulacion\n");
-				return NULL;
 			case 'f':
                 filename = optarg;
                 break;
@@ -104,7 +101,10 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
 				print_error(100, NULL , NULL);
 				break;
 			default:
-				printf("Uso: 'forking -f <archivo>'\n'forking -h' para mostrar ayuda\n");
+				printf(ANSI_COLOR_BLUE"\t\tBienvenido al ForKing\n"ANSI_COLOR_RESET);
+				printf(ANSI_COLOR_GREEN"Uso: "ANSI_COLOR_RESET" 'forking -f <archivo>' o 'forking --file <archivo>' para iniciar la simulacion\n");
+				printf(ANSI_COLOR_YELLOW"Ayuda: "ANSI_COLOR_RESET" 'forking -h' o 'forking --help' para mostrar ayuda\n");
+				printf(ANSI_COLOR_RED"Clean: "ANSI_COLOR_RESET" 'forking -c' o 'forking --clean' para eliminar las impresiones por pantalla, se mostrara tiempo de ejecusion en ticks\n");
 				break;
 		}
 	}
@@ -114,7 +114,10 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
             printf("'clean' solo puede utilizarse al ejecutar un archivo.\n");
         }
 		else{
-            printf("Uso: 'forking -f <archivo>'\n'forking -h' para mostrar ayuda\n");
+            printf(ANSI_COLOR_BLUE"\t\tBienvenido al ForKing\n"ANSI_COLOR_RESET);
+			printf(ANSI_COLOR_GREEN"Uso: "ANSI_COLOR_RESET" 'forking -f <archivo>' o 'forking --file <archivo>' para iniciar la simulacion\n");
+			printf(ANSI_COLOR_YELLOW"Ayuda: "ANSI_COLOR_RESET" 'forking -h' o 'forking --help' para mostrar ayuda\n");
+			printf(ANSI_COLOR_RED"Clean: "ANSI_COLOR_RESET" 'forking -c' o 'forking --clean' para eliminar las impresiones por pantalla, se mostrara tiempo de ejecusion en ticks\n");
         }
         return NULL;
     }
