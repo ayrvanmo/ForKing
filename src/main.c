@@ -82,6 +82,7 @@ int main(int argc, char* argv[]) {
 		sleep(2);
 	}
 
+
 	while(forkingStatus.remainingProceses > 0)
 	{
 		// Intenta llevar los procesos en espera a su respectiva cola de procesamiento
@@ -137,6 +138,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	printf(ANSI_COLOR_CYAN "\n\t\tGracias por usar Forking!\n\n"ANSI_COLOR_RESET);
+
 
 	return 0;
 }

@@ -117,28 +117,51 @@ void enqueue(Process* P, Queue Q)
 	Q->centinel->process->PID++; // aumentar contador del tamaño de la cola}
 
 }
-
 /**
- * @brief Funcion para ordenar decrecientemente una cola segun un criterio
- * @param P Proceso a ingresar
- * @param Q Cola a ingresar el proceso
- * @param criterion Critero con el cual se trabaja
+ * @brief Funcion que devuelve el orden decreciente entre dos parametros de procesos
+ * @param criterion Criterio seleccionado
+ * @param A Proceso A
+ * @param B Proceso B
  */
-void decreasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Process))
+bool decreasing(unsigned int(*criterion)(Process), Process A, Process B)
+{
+	return (  criterion(A) <= criterion (B) );
+}
+/**
+ * @brief Funcion que devuelve el orden creciente entre dos parametros de procesos
+ * @param criterion Criterio seleccionado
+ * @param A Proceso A
+ * @param B Proceso B
+ */
+bool increasing( unsigned int(*criterion)(Process), Process A, Process B)
+{
+	return (  criterion(A) >= criterion (B) );
+}
+/**
+ * @brief Funcion que inserta ordenadamente segun un criterio y un orden un proceso en una cola.
+ * @param P Proceso a ingresar
+ * @param Q Cola seleccionada
+ * @param criterion Criterio elegido
+ * @param order Orden de insercion
+ */
+void sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Process), bool (*order)(unsigned int(*)(Process), Process, Process))
 {
 	CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
 	// error de memoria
+	//printf("puede ser aca1 \n");
 	if(!newNode){
 		print_error(200, NULL, NULL);
 		exit(1);
 	}
+	//printf("puede ser aca1 \n");
 	newNode->process = P;
-
+	//printf("puede ser aca1 \n");
 	if(is_empty_queue(Q)){
 		enqueue(P, Q); // si la cola está vacia, agregar el proceso al final
 		return;
 	}
-	else if(criterion(*Q->centinel->next->process) <= criterion(*newNode->process)){ // Insertar al inicio
+	//else if(criterion(*Q->centinel->next->process) <= criterion(*newNode->process)){ // Insertar al inicio
+	else if(order(criterion, *Q->centinel->next->process, *newNode->process)){
 		newNode->next = Q->centinel->next;
 		newNode->prev = Q->centinel;
 		Q->centinel->next->prev = newNode;
@@ -146,7 +169,9 @@ void decreasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Pr
 		Q->centinel->process->PID++;
 		return;
 	}
-	else if(criterion(*Q->centinel->prev->process) >= criterion(*newNode->process)){ // Insertar al final
+	//else if(criterion(*Q->centinel->prev->process) >= criterion(*newNode->process)){ // Insertar al final
+	//else if(criterion(*newNode->process) <= criterion(*Q->centinel->prev->process)){
+	else if( order( criterion, *newNode->process, *Q->centinel->prev->process)){
 		newNode->next = Q->centinel;
 		newNode->prev = Q->centinel->prev;
 		Q->centinel->prev->next = newNode;
@@ -157,7 +182,8 @@ void decreasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Pr
 	else{ // Recorrer la cola para insertar en el lugar correcto
 		CircularNode *position = Q->centinel->next;
 		while(position != Q->centinel){
-			if(criterion(*position->process) <= criterion(*newNode->process)){
+			//if(criterion(*position->process) <= criterion(*newNode->process)){
+			if(order(criterion, *position->process , *newNode->process)){
 				newNode->next = position;
 				newNode->prev = position->prev;
 				position->prev->next = newNode;
@@ -168,59 +194,9 @@ void decreasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Pr
 			position = position->next;
 		}
 	}
+
 }
 
-/**
- * @brief Funcion para ordenar en orden creciente una cola segun un criterio
- * @param P Proceso a ingresar
- * @param Q Cola a ingresar el proceso
- * @param criterion Critero con el cual se trabaja
- */
-void increasing_sorting_enqueue(Process *P, Queue Q, unsigned int(*criterion)(Process))
-{
-	CircularNode *newNode = (CircularNode*)malloc(sizeof(CircularNode));
-	// error de memoria
-	if(!newNode){
-		print_error(200, NULL, NULL);
-		exit(1);
-	}
-	newNode->process = P;
-
-	if(is_empty_queue(Q)){
-		enqueue(P, Q); // si la cola está vacia, agregar el proceso al final
-		return;
-	}
-	else if(criterion(*Q->centinel->next->process) >= criterion(*newNode->process)){ // Insertar al inicio
-		newNode->next = Q->centinel->next;
-		newNode->prev = Q->centinel;
-		Q->centinel->next->prev = newNode;
-		Q->centinel->next = newNode;
-		Q->centinel->process->PID++;
-		return;
-	}
-	else if(criterion(*Q->centinel->prev->process) <= criterion(*newNode->process)){ // Insertar al final
-		newNode->next = Q->centinel;
-		newNode->prev = Q->centinel->prev;
-		Q->centinel->prev->next = newNode;
-		Q->centinel->prev = newNode;
-		Q->centinel->process->PID++;
-		return;
-	}
-	else{ // Recorrer la cola para insertar en el lugar correcto
-		CircularNode *position = Q->centinel->next;
-		while(position != Q->centinel){
-			if(criterion(*position->process) >= criterion(*newNode->process)){
-				newNode->next = position;
-				newNode->prev = position->prev;
-				position->prev->next = newNode;
-				position->prev = newNode;
-				Q->centinel->process->PID++;
-				return;
-			}
-			position = position->next;
-		}
-	}
-}
 
 /**
  * @brief Funcion para mostrar el frente de una cola

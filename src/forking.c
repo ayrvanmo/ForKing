@@ -21,7 +21,8 @@ void process_waiting_queue(SystemConfig* config, SystemStatus* status)
             status->rrQueueNumber++;
         }
         else{
-            increasing_sorting_enqueue(front(config->waitingQueue), config->sjfQueue, get_process_burst_time);
+            //increasing_sorting_enqueue(front(config->waitingQueue), config->sjfQueue, get_process_burst_time);
+            sorting_enqueue(front(config->waitingQueue), config->sjfQueue, get_process_burst_time, increasing);
             status->sjfQueueNumber++;
         }
         // Se elimina el proceso de la waiting queue
@@ -61,12 +62,14 @@ void process_arrival_queue(SystemConfig* config, SystemStatus* status){
             delete_element(*auxProcessPtr, config->processes);
         } // Asignacion de "memoria" y paso a waiting_queue
         else if(!insert_buddy(auxProcessPtr, config->buddySystem, *config, status)){
-            increasing_sorting_enqueue(auxProcessPtr, config->waitingQueue, get_process_memory_required);
+           //increasing_sorting_enqueue(auxProcessPtr, config->waitingQueue, get_process_memory_required);
+           sorting_enqueue(auxProcessPtr, config->waitingQueue, get_process_memory_required, increasing);
             status->waitingQueueNumber++;
         }
         // Asignacion de cola de procesamiento
         else if(auxProcessPtr->burstTime < config->timeQuantum){
-            increasing_sorting_enqueue(auxProcessPtr, config->sjfQueue, get_process_burst_time);
+            //increasing_sorting_enqueue(auxProcessPtr, config->sjfQueue, get_process_burst_time);
+            sorting_enqueue(auxProcessPtr, config->sjfQueue, get_process_burst_time,increasing);
             status->sjfQueueNumber++;
         }
         else{
@@ -140,7 +143,8 @@ void process_rr_queue(SystemConfig* config, SystemStatus* status, FILE* outputFi
         //Si el procceso no ha terminado se ingresa nuevamente a la cola correspondiente
         if(auxProcessPtr->burstTime != 0){
             if(auxProcessPtr->burstTime < config->timeQuantum){
-                increasing_sorting_enqueue(auxProcessPtr, config->sjfQueue, get_process_burst_time);
+                //increasing_sorting_enqueue(auxProcessPtr, config->sjfQueue, get_process_burst_time);
+                sorting_enqueue(auxProcessPtr, config->sjfQueue, get_process_burst_time, increasing);
                 status->sjfQueueNumber++;
                 status->rrQueueNumber--;
             }
