@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
 	bool clean = false; /*\var clean Indica si se debe ejecutar el programa sin imprimir la simulacion*/
 	/*Obtener parametros por terminal*/
 	if(!(file_name = get_terminal_parameters(argc, argv, &clean))){
-		return 1;
+		return 0;
 	}
 
 	/*Inicialización de variables del programa*/
@@ -49,7 +49,6 @@ int main(int argc, char* argv[]) {
 		printf(CLEAR_SCREEN ANSI_COLOR_BLUE"\t\tInformacion recopilada:\n\n"ANSI_COLOR_RESET);
 		printf("Total memoria: %u\n", forkingConfig.totalMemory);
 		printf("Minima memoria: %u\n", forkingConfig.minMemory);
-		printf("Nucleos del procesador: %u\n", forkingConfig.cpuCores);
 		printf("Quantum para Round Robin: %u\n\n", forkingConfig.timeQuantum);
 		printf(ANSI_COLOR_RED"\t\tOrdenando lista de procesos...\n"ANSI_COLOR_RESET);
 		sleep(1);
@@ -116,11 +115,17 @@ int main(int argc, char* argv[]) {
 		// Imprimir Informacion final
 		print_program(&forkingConfig, forkingStatus);
 	}
-	printf("Proceso terminado luego de %u ticks\n\n", forkingStatus.ticks-1);
+	printf("\nProcesamiento terminado luego de %u ticks\n\n", forkingStatus.ticks-1);
+
+	printf(ANSI_COLOR_BLUE"\t\tInformacion del sistema:\n"ANSI_COLOR_RESET);
+	printf("Total memoria: %u\n", forkingConfig.totalMemory);
+	printf("Minima memoria: %u\n", forkingConfig.minMemory);
+	printf("Quantum para Round Robin: %u\n\n", forkingConfig.timeQuantum);
 
 	// Se imprime la Carta Gantt con ayuda de Python
-	if(forkingStatus.totalProceses > 25){
-		printf(ANSI_COLOR_RED"Demasiados procesos para imprimir carta Gantt\n\n"ANSI_COLOR_RESET);
+	if(forkingStatus.totalProceses > 25 || forkingStatus.ticks > 300){
+		printf(ANSI_COLOR_RED"Por las caracteristicas de los procesos ingresados no se puede imprimir la Carta Gant en formato PDF (Maximo 25 procesos o 300 ticks)\n"ANSI_COLOR_RESET);
+		printf("Se guardo la informacion de cada tick en el archivo 'gant.csv'\n\n");
 	}
 	else
 	{
@@ -128,6 +133,7 @@ int main(int argc, char* argv[]) {
 		if(!fork()) // Creamos un proceso hijo para crear la Carta Gant :D, de aqui el nombre "forKing"
 			execl("/usr/bin/python3", "python3", "gant_creator.py", NULL);
 		wait(NULL);
+		printf("Carta Gantt generada en 'gant.pdf'\n\n");
 	}
 
 	printf(ANSI_COLOR_CYAN "\n\t\tGracias por usar Forking!\n\n"ANSI_COLOR_RESET);

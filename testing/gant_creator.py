@@ -65,4 +65,4 @@ ax.set_ylim(min(unique_pids) - 0.5, max(unique_pids) + 0.5)
 
 plt.tight_layout()  # Ajustar automáticamente el layout para evitar recortes
 #plt.show()
-plt.savefig('carta_gant.pdf', format='pdf')
+plt.savefig('gant.pdf', format='pdf')

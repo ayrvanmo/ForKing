@@ -15,8 +15,9 @@ LDFLAGS= -Wall -lm
 
 all: $(OBJ_FILES)
 	$(CC) $(CFLAGS) -o build/$(EXEC) $(OBJ_FILES) $(INCLUDE) $(LIBS)
-	$(CC) $(CFLAGS) -o build/generator.out testing/generator.c
+	$(CC) -o build/generator.out testing/generator.c
 	cp ./testing/gant_creator.py build/
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c -o $@ $^ $(INCLUDE)
 
@@ -29,9 +30,12 @@ clean:
 
 folders:
 	mkdir -p src obj incs build docs
+
 doc:
 	doxygen
 
+run:
+	@./build/$(EXEC) --help
 
 send:
 	tar czf $(GRUPO)-$(NTAR).tgz --transform 's,^,$(GRUPO)-$(NTAR)/,' Makefile src incs docs

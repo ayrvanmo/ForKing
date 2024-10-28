@@ -93,14 +93,16 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
                 *clean = true;
                 break;
 			case ':':
-				print_error(100, NULL , NULL);
-				break;
+				print_error(100, NULL , "Usar '--help' para mostrar ayuda");
+				return NULL;
 			default:
 				printf(ANSI_COLOR_BLUE"\t\tBienvenido al ForKing\n"ANSI_COLOR_RESET);
 				printf(ANSI_COLOR_GREEN"Uso: "ANSI_COLOR_RESET" 'forking -f <archivo>' o 'forking --file <archivo>' para iniciar la simulacion\n");
 				printf(ANSI_COLOR_YELLOW"Ayuda: "ANSI_COLOR_RESET" 'forking -h' o 'forking --help' para mostrar ayuda\n");
 				printf(ANSI_COLOR_RED"Clean: "ANSI_COLOR_RESET" 'forking -c' o 'forking --clean' para eliminar las impresiones por pantalla, se mostrara tiempo de ejecusion en ticks\n");
-				break;
+				printf("\nPara generar un archivo de entrada ejecutar previamente 'generator.out' con el nombre del archivo a generar\n");
+				printf("Recomendamos ejecutar forKing dentro del directorio 'build/'\n");
+				return NULL;
 		}
 	}
 
@@ -113,6 +115,7 @@ char* get_terminal_parameters(int argc, char* argv[], bool *clean){
 			printf(ANSI_COLOR_GREEN"Uso: "ANSI_COLOR_RESET" 'forking -f <archivo>' o 'forking --file <archivo>' para iniciar la simulacion\n");
 			printf(ANSI_COLOR_YELLOW"Ayuda: "ANSI_COLOR_RESET" 'forking -h' o 'forking --help' para mostrar ayuda\n");
 			printf(ANSI_COLOR_RED"Clean: "ANSI_COLOR_RESET" 'forking -c' o 'forking --clean' para eliminar las impresiones por pantalla, se mostrara tiempo de ejecusion en ticks\n");
+			printf("\nPara generar un archivo de entrada ejecutar previamente 'generator.out' con el nombre del archivo a generar\n");
         }
         return NULL;
     }

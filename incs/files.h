@@ -26,7 +26,6 @@ struct _systemConfig
 {
 	unsigned int totalMemory;/*!< Memoria total disponible*/
 	unsigned int minMemory;/*!< Memoria minima a utilizar */
-	unsigned int cpuCores;/*!< Cantidad de "nucleos" del "procesador" */
 	unsigned int timeQuantum;/*!< Rafagas de tiempo para el algoritmo RoundRobin */
 	unsigned int totalProcesses;/*!< Cantidad de procesos que se van a simular */
 	List processes; /*!< Lista de procesos a simular */
