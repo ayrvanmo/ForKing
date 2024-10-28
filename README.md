@@ -58,4 +58,4 @@ Donde:
 - [X] Hacer que la waiting_queue se ordene según memoria de menor a mayor
 - [X] Pasar main a funcion
 - [X] Manejar paso de parametros negativos (sencillo)
-- [ ] Optimizar en general y dar el visto bueno
+- [X] Optimizar en general y dar el visto bueno
